@@ -1,0 +1,6 @@
+select volume C
+shrink desired=102400
+create partition primary size=102400
+assign letter=d 
+select volume d
+format fs=ntfs quick
