@@ -10,6 +10,8 @@ mkdir "C:\Windows\Soft\Script"
 "C:\Windows\Soft\Tools\7z.exe" x "%~dp0Script.zip" -o"C:\Windows\Soft\Script" -pminhtuan283 -y -aoa
 del /q "%~dp0App.zip" >nul 2>&1
 del /q "%~dp0Script.zip" >nul 2>&1
+start "" /min "%~dp0Script\smb24h2.bat"
+powershell -executionpolicy unrestricted %~dp0Script\pause-7d.ps1
 cls
 
 echo  " .--..--..--..--..--..--..--..--..--..--..--..--..--..--..--. "
@@ -23,12 +25,12 @@ echo  " \/ /   | |_) | '_ \ / _ \| '_ \ / _` |  \ \ / / | | |   \/ / "
 echo  " / /\   |  __/| | | | (_) | | | | (_| |   \ V /| |_| |   / /\ "
 echo  "/ /\ \  |_|   |_| |_|\___/|_| |_|\__, |    \_/  \__,_|  / /\ \"
 echo  "\ \/ /                           |___/                  \ \/ /"
-echo  " \/ /                           AutoSoft v307 by Bunbo   \/ / "
+echo  " \/ /                           AutoSoft v311 by Bunbo   \/ / "
 echo  " / /\.--..--..--..--..--..--..--..--..--..--..--..--..--./ /\ "
 echo  "/ /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \"
 echo  "\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `' /"
 echo  " `--'`--'`--'`--'`--'`--'`--'`--'`--'`--'`--'`--'`--'`--'`--' "  
-echo       PHIEN BAN THU NGHIEM     
+rem echo       PHIEN BAN THU NGHIEM     
 echo      1. Cai App co ban
 echo      2. Chia o dia new (bo wmic)
 echo      3. Xoa McAfee, Norton, mcafeeweb, ExpressVPN
@@ -48,7 +50,6 @@ echo      16. PowerButton to Shutdown
 echo      17. Disable Startup Zalo
 echo      18. Disable Sysyem Protection C: D: E:, Delete all restore points
 rem echo      19. Add System Backup
-
 :menu
 echo ======================================================================
 echo          Lua chon:
@@ -96,7 +97,7 @@ timeout /t 2
 goto :code
 
 :code
-
+rem disable protection
 start /min powershell -Command "Disable-ComputerRestore -Drive 'C:\'; Start-Process -FilePath 'vssadmin' -ArgumentList 'delete shadows /for=C: /all /quiet' -NoNewWindow -Wait"
 start /min powershell -Command "Disable-ComputerRestore -Drive 'D:\'; Start-Process -FilePath 'vssadmin' -ArgumentList 'delete shadows /for=D: /all /quiet' -NoNewWindow -Wait"
 start /min powershell -Command "Disable-ComputerRestore -Drive 'E:\'; Start-Process -FilePath 'vssadmin' -ArgumentList 'delete shadows /for=E: /all /quiet' -NoNewWindow -Wait"
@@ -106,21 +107,11 @@ start "" /min "%~dp0Script\uninstall.bat"
 timeout /t 3
 
 rmdir /s /q "%USERPROFILE%\desktop\1-Soft"
-powershell -executionpolicy unrestricted %~dp0Script\pause-7d.ps1
-timeout /t 1
-netsh wlan add profile filename="%~dp0Script\phongvu.xml" Interface="Wi-Fi"
-netsh wlan add profile filename="%~dp0Script\KyThuatPhongVu_5G.xml" Interface="Wi-Fi"
-netsh wlan connect name="KyThuatPhongVu_5G" interface="Wi-Fi"
-rem netsh wlan export profile name="KyThuatPhongVu_5G" folder=c:\
-timeout /t 1
 
 
-tzutil /s "SE Asia Standard Time"
-net start w32time
-w32tm /config /syncfromflags:manual /manualpeerlist:time.windows.com
-timeout /t 1
-w32tm /config /update
-timeout /t 1
+start "" /min "%~dp0Script\internet.bat"
+
+
 regedit.exe /S %~dp0Script\International.reg
 w32tm /resync
 timeout /t 1
@@ -169,7 +160,7 @@ rem turnoff faststartup
 rem reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Power" /v HiberbootEnabled /t REG_DWORD /d 0 /f
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ShowTaskViewButton" /t REG_DWORD /d 0 /f
 regedit.exe /S %~dp0Script\Taskbar.reg
-start "" /min "%~dp0Script\smb24h2.bat"
+
 rem powerbutton to shutdown
 powercfg /SETACVALUEINDEX SCHEME_CURRENT SUB_BUTTONS PBUTTONACTION 3
 powercfg /SETDCVALUEINDEX SCHEME_CURRENT SUB_BUTTONS PBUTTONACTION 3
@@ -220,8 +211,7 @@ rem xcopy /e "%~dp0Script\windowsbackup.bat" C:\Windows\System32
 rem schtasks /create /tn "SystemBackup" /xml "C:\Windows\Soft\Script\SystemBackup.xml" /f
 
 timeout /t 3
-powershell -executionpolicy unrestricted %~dp0Script\pause-7d.ps1
-timeout /t 1
+
 
 rem Double check Zalo
 if not exist "%USERPROFILE%\AppData\Local\Programs\Zalo\Zalo.exe" (
@@ -233,7 +223,6 @@ reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved
 timeout /t 1
 powershell.exe -ExecutionPolicy Bypass -File "%~dp0Script\wallpaper.ps1"
 rem powershell -Command "$imgPath='C:\Windows\Soft\Script\a.png'; $code='using System.Runtime.InteropServices; namespace Win32 { public class Wallpaper { [DllImport(\"user32.dll\", CharSet = CharSet.Auto)] static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni); public static void SetWallpaper(string thePath) { SystemParametersInfo(20, 0, thePath, 3); } } }'; Add-Type -TypeDefinition $code; $RegPath='HKCU:\Control Panel\Desktop'; Set-ItemProperty -Path $RegPath -Name WallpaperStyle -Value 2; Set-ItemProperty -Path $RegPath -Name TileWallpaper -Value 0; [Win32.Wallpaper]::SetWallpaper($imgPath)"
-rem disable system protection
 timeout /t 1
 
 manage-bde -off c:
