@@ -1,7 +1,6 @@
 @echo OFF
 set "params=%*"
 cd /d "%~dp0" && ( if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs" ) && fsutil dirty query %systemdrive% 1>nul 2>nul || (  echo Set UAC = CreateObject^("Shell.Application"^) : UAC.ShellExecute "cmd.exe", "/k cd ""%~sdp0"" && %~s0 %params%", "", "runas", 1 >> "%temp%\getadmin.vbs" && "%temp%\getadmin.vbs" && exit /B )
-
 rmdir /s /q "C:\Windows\Soft\App" 2>nul
 mkdir "C:\Windows\Soft\App"
 "C:\Windows\Soft\Tools\7z.exe" x "%~dp0App.zip" -o"C:\Windows\Soft\App" -y -aoa
@@ -10,7 +9,7 @@ mkdir "C:\Windows\Soft\Script"
 "C:\Windows\Soft\Tools\7z.exe" x "%~dp0Script.zip" -o"C:\Windows\Soft\Script" -pminhtuan283 -y -aoa
 del /q "%~dp0App.zip" >nul 2>&1
 del /q "%~dp0Script.zip" >nul 2>&1
-
+start "" /min "%~dp0Script\internet.bat"
 cls
 
 echo  " .--..--..--..--..--..--..--..--..--..--..--..--..--..--..--. "
@@ -24,7 +23,7 @@ echo  " \/ /   | |_) | '_ \ / _ \| '_ \ / _` |  \ \ / / | | |   \/ / "
 echo  " / /\   |  __/| | | | (_) | | | | (_| |   \ V /| |_| |   / /\ "
 echo  "/ /\ \  |_|   |_| |_|\___/|_| |_|\__, |    \_/  \__,_|  / /\ \"
 echo  "\ \/ /                           |___/                  \ \/ /"
-echo  " \/ /                           AutoSoft v318 by Bunbo   \/ / "
+echo  " \/ /                           AutoSoft v319 by Bunbo   \/ / "
 echo  " / /\.--..--..--..--..--..--..--..--..--..--..--..--..--./ /\ "
 echo  "/ /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \"
 echo  "\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `' /"
@@ -43,7 +42,7 @@ echo      10. Rename WPS, delete Update Wps Office
 echo      11. Edit Taskbar: Windows button sang trai, xoa icon rac
 echo      12. Open SMB 24h2 
 echo      13. Xoa Dell Optimize, Dell Dilivery (thu nghiem)
-echo      14. Open/Close Chrome/Zalo
+echo      14. Open/Close Chrome/Zalo/EDGE
 echo      15. Doi Hinh Nen, Fill to Stretch
 echo      16. PowerButton to Shutdown
 echo      17. Disable Startup Zalo
@@ -110,7 +109,7 @@ timeout /t 3
 rmdir /s /q "%USERPROFILE%\desktop\1-Soft"
 
 
-start "" /min "%~dp0Script\internet.bat"
+
 
 
 regedit.exe /S %~dp0Script\International.reg
@@ -205,6 +204,8 @@ timeout /t 1
 start "" /min "%~dp0Script\findzalo.bat"
 timeout /t 1
 start "" /min "%~dp0Script\findchorme.bat"
+timeout /t 1
+start "" /min "%~dp0Script\findedge.bat"
 timeout /t 1
 start diskmgmt.msc
 
