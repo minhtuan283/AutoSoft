@@ -29,7 +29,7 @@ echo  " / /\.--..--..--..--..--..--..--..--..--..--..--..--..--./ /\ "
 echo  "/ /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \"
 echo  "\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `' /"
 echo  " `--'`--'`--'`--'`--'`--'`--'`--'`--'`--'`--'`--'`--'`--'`--' "  
-echo       PHIEN BAN THU NGHIEM     
+rem echo       PHIEN BAN THU NGHIEM     
 echo      1. Cai App co ban
 echo      2. Chia o dia new (bo wmic)
 echo      3. Xoa McAfee, Norton, mcafeeweb, ExpressVPN
@@ -48,6 +48,7 @@ echo      15. Doi Hinh Nen, Fill to Stretch
 echo      16. PowerButton to Shutdown
 echo      17. Disable Startup Zalo
 echo      18. Disable Sysyem Protection C: D: E:, Delete all restore points
+echo      19. Auto Update AutoSoft
 rem echo      19. Add System Backup
 :menu
 echo ======================================================================
