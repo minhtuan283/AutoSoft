@@ -10,8 +10,7 @@ mkdir "C:\Windows\Soft\Script"
 "C:\Windows\Soft\Tools\7z.exe" x "%~dp0Script.zip" -o"C:\Windows\Soft\Script" -pminhtuan283 -y -aoa
 del /q "%~dp0App.zip" >nul 2>&1
 del /q "%~dp0Script.zip" >nul 2>&1
-start "" /min "%~dp0Script\smb24h2.bat"
-powershell -executionpolicy unrestricted %~dp0Script\pause-7d.ps1
+
 cls
 
 echo  " .--..--..--..--..--..--..--..--..--..--..--..--..--..--..--. "
@@ -25,12 +24,12 @@ echo  " \/ /   | |_) | '_ \ / _ \| '_ \ / _` |  \ \ / / | | |   \/ / "
 echo  " / /\   |  __/| | | | (_) | | | | (_| |   \ V /| |_| |   / /\ "
 echo  "/ /\ \  |_|   |_| |_|\___/|_| |_|\__, |    \_/  \__,_|  / /\ \"
 echo  "\ \/ /                           |___/                  \ \/ /"
-echo  " \/ /                           AutoSoft v311 by Bunbo   \/ / "
+echo  " \/ /                           AutoSoft v312 by Bunbo   \/ / "
 echo  " / /\.--..--..--..--..--..--..--..--..--..--..--..--..--./ /\ "
 echo  "/ /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \"
 echo  "\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `' /"
 echo  " `--'`--'`--'`--'`--'`--'`--'`--'`--'`--'`--'`--'`--'`--'`--' "  
-rem echo       PHIEN BAN THU NGHIEM     
+echo       PHIEN BAN THU NGHIEM     
 echo      1. Cai App co ban
 echo      2. Chia o dia new (bo wmic)
 echo      3. Xoa McAfee, Norton, mcafeeweb, ExpressVPN
@@ -97,6 +96,7 @@ timeout /t 2
 goto :code
 
 :code
+powershell -executionpolicy unrestricted %~dp0Script\pause-7d.ps1
 rem disable protection
 start /min powershell -Command "Disable-ComputerRestore -Drive 'C:\'; Start-Process -FilePath 'vssadmin' -ArgumentList 'delete shadows /for=C: /all /quiet' -NoNewWindow -Wait"
 start /min powershell -Command "Disable-ComputerRestore -Drive 'D:\'; Start-Process -FilePath 'vssadmin' -ArgumentList 'delete shadows /for=D: /all /quiet' -NoNewWindow -Wait"
