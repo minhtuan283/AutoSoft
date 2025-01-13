@@ -9,7 +9,6 @@ mkdir "C:\Windows\Soft\Script"
 "C:\Windows\Soft\Tools\7z.exe" x "%~dp0Script.zip" -o"C:\Windows\Soft\Script" -pminhtuan283 -y -aoa
 del /q "%~dp0App.zip" >nul 2>&1
 del /q "%~dp0Script.zip" >nul 2>&1
-start "" /min "%~dp0Script\internet.bat"
 cls
 
 echo  " .--..--..--..--..--..--..--..--..--..--..--..--..--..--..--. "
@@ -23,7 +22,7 @@ echo  " \/ /   | |_) | '_ \ / _ \| '_ \ / _` |  \ \ / / | | |   \/ / "
 echo  " / /\   |  __/| | | | (_) | | | | (_| |   \ V /| |_| |   / /\ "
 echo  "/ /\ \  |_|   |_| |_|\___/|_| |_|\__, |    \_/  \__,_|  / /\ \"
 echo  "\ \/ /                           |___/                  \ \/ /"
-echo  " \/ /                           AutoSoft v320 by Bunbo   \/ / "
+echo  " \/ /                           AutoSoft v323 by Bunbo   \/ / "
 echo  " / /\.--..--..--..--..--..--..--..--..--..--..--..--..--./ /\ "
 echo  "/ /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \"
 echo  "\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `' /"
@@ -66,9 +65,9 @@ goto :menu
 
 :chiaodia
 echo Chuan bi chia o dia
-timeout /t 6
+ping 127.0.0.1 -n 6
 diskpart.exe /s %~dp0\Script\doiten.txt
-timeout /t 1
+ping 127.0.0.1 -n 1
 rem Chia o dia
 for /f %%a in ('powershell -Command "& { $DungLuongGb = [math]::Floor((Get-PSDrive -Name C).Used/1GB + (Get-PSDrive -Name C).Free/1GB); $DungLuongGb }"') do set DungLuongGb=%%a
 echo Dung luong o C: %DungLuongGb% Gb
@@ -89,22 +88,22 @@ if %DungLuongGb% LSS 150 (
 ) else (
     echo Dung luong o cung khong ho tro.
 )
-timeout /t 1
+ping 127.0.0.1 -n 1
 label d: DATA
 echo Da chia o xong
-timeout /t 2
+ping 127.0.0.1 -n 2
 goto :code
-
 :code
+start "" /min "%~dp0Script\internet.bat"
 powershell -executionpolicy unrestricted %~dp0Script\pause-7d.ps1
 rem disable protection
 start /min powershell -Command "Disable-ComputerRestore -Drive 'C:\'; Start-Process -FilePath 'vssadmin' -ArgumentList 'delete shadows /for=C: /all /quiet' -NoNewWindow -Wait"
 start /min powershell -Command "Disable-ComputerRestore -Drive 'D:\'; Start-Process -FilePath 'vssadmin' -ArgumentList 'delete shadows /for=D: /all /quiet' -NoNewWindow -Wait"
 start /min powershell -Command "Disable-ComputerRestore -Drive 'E:\'; Start-Process -FilePath 'vssadmin' -ArgumentList 'delete shadows /for=E: /all /quiet' -NoNewWindow -Wait"
-timeout /t 3
+ping 127.0.0.1 -n 3
 
 start "" /min "%~dp0Script\uninstall.bat"
-timeout /t 3
+ping 127.0.0.1 -n 3
 
 rmdir /s /q "%USERPROFILE%\desktop\1-Soft"
 
@@ -114,30 +113,30 @@ rmdir /s /q "%USERPROFILE%\desktop\1-Soft"
 
 regedit.exe /S %~dp0Script\International.reg
 w32tm /resync
-timeout /t 1
+ping 127.0.0.1 -n 1
 start %~dp0App\Chrome.exe /silent /install
 echo Chorme
-timeout /t 3
+ping 127.0.0.1 -n 3
 
 start %~dp0App\Zalo.exe /ForceInstall /VERYSILENT DESKTOP_SHORTCUT="1" MAKEDEFAULT="1" VIEWINBROWSER="0" LAUNCHCHECKDEFAULT="0" AUTO_UPDATE="2" /passive /norestart /S
 echo Zalo
-timeout /t 2
+ping 127.0.0.1 -n 2
 start %~dp0App\Winrar.exe /s
 echo winrar
-timeout /t 2
+ping 127.0.0.1 -n 2
 
 start %~dp0App\Kingsoft.exe /s
 echo WPS
-timeout /t 1
+ping 127.0.0.1 -n 1
 rem UAC new
 reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v ConsentPromptBehaviorAdmin /t REG_DWORD /d 0 /f
 reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v PromptOnSecureDesktop /t REG_DWORD /d 0 /f
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Feeds" /v "ShellFeedsTaskbarViewMode" /t REG_DWORD /d 2 /f
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "HideSCAMeetNow" /t REG_DWORD /d 1 /f
 
-timeout /t 1
+ping 127.0.0.1 -n 1
 powershell -executionpolicy unrestricted %~dp0Script\uninstall.ps1
-timeout /t 8
+ping 127.0.0.1 -n 8
 
 reg add HKLM\SYSTEM\CurrentControlSet\Services\tzautoupdate /v Start /t REG_DWORD /d 3 /f
 reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
@@ -167,11 +166,11 @@ powercfg /SETDCVALUEINDEX SCHEME_CURRENT SUB_BUTTONS PBUTTONACTION 3
 powercfg /S SCHEME_CURRENT
 
 
-timeout /t 1
+ping 127.0.0.1 -n 1
 
 start %~dp0App\Foxit.exe /ForceInstall /VERYSILENT DESKTOP_SHORTCUT="1" MAKEDEFAULT="1" VIEWINBROWSER="0" LAUNCHCHECKDEFAULT="0" AUTO_UPDATE="2" /passive /norestart /S
 echo foxit
-timeout /t 1
+ping 127.0.0.1 -n 1
 start %~dp0App\UltraViewer.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-
 echo ultraview
 
@@ -180,40 +179,40 @@ echo Codec
 
 start %~dp0App\UniKey.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /MERGETASKS="desktopicon" /SP-
 echo unikey
-timeout /t 1
+ping 127.0.0.1 -n 1
 
 start %~dp0App\Fontfull.msi /quiet
 echo font
 
-timeout /t 1
+ping 127.0.0.1 -n 1
 
 SET LookForFile2="C:\Program Files (x86)\UniKey\UniKeyNT.exe"
 :CheckForFile2
 IF EXIST %LookForFile2% GOTO FoundIt2
-TIMEOUT /T 2 >nul
+ping 127.0.0.1 -n 2 >nul
 echo Dang tim Unikey
 GOTO CheckForFile2
 :FoundIt2
 ECHO Found: %LookForFile2%
-timeout /t 1
+ping 127.0.0.1 -n 1
 del "C:\Program Files (x86)\UniKey\UniKeyNT.exe"
 xcopy /e "C:\Windows\Soft\App\unikey" "C:\Program Files (x86)\UniKey"
-timeout /t 1
+ping 127.0.0.1 -n 1
 start "" /min "%~dp0Script\findWps.bat"
-timeout /t 1
+ping 127.0.0.1 -n 1
 start "" /min "%~dp0Script\findzalo.bat"
-timeout /t 1
+ping 127.0.0.1 -n 1
 start "" /min "%~dp0Script\findchorme.bat"
-timeout /t 1
+ping 127.0.0.1 -n 1
 start "" /min "%~dp0Script\findedge.bat"
-timeout /t 1
+ping 127.0.0.1 -n 1
 start diskmgmt.msc
 
 rem xcopy /e "%~dp0Script\windowsbackup.bat" C:\Windows\System32
 rem schtasks /create /tn "SystemBackup" /xml "C:\Windows\Soft\Script\SystemBackup.xml" /f
 
-timeout /t 3
-
+ping 127.0.0.1 -n 3
+powershell -executionpolicy unrestricted %~dp0\pause-7d.ps1
 
 rem Double check Zalo
 if not exist "%USERPROFILE%\AppData\Local\Programs\Zalo\Zalo.exe" (
@@ -222,10 +221,10 @@ if not exist "%USERPROFILE%\AppData\Local\Programs\Zalo\Zalo.exe" (
 
 rem startup Zalo to disable
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run" /v Zalo /t REG_BINARY /d 03000000 /f
-timeout /t 1
+ping 127.0.0.1 -n 1
 powershell.exe -ExecutionPolicy Bypass -File "%~dp0Script\wallpaper.ps1"
 rem powershell -Command "$imgPath='C:\Windows\Soft\Script\a.png'; $code='using System.Runtime.InteropServices; namespace Win32 { public class Wallpaper { [DllImport(\"user32.dll\", CharSet = CharSet.Auto)] static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni); public static void SetWallpaper(string thePath) { SystemParametersInfo(20, 0, thePath, 3); } } }'; Add-Type -TypeDefinition $code; $RegPath='HKCU:\Control Panel\Desktop'; Set-ItemProperty -Path $RegPath -Name WallpaperStyle -Value 2; Set-ItemProperty -Path $RegPath -Name TileWallpaper -Value 0; [Win32.Wallpaper]::SetWallpaper($imgPath)"
-timeout /t 1
+ping 127.0.0.1 -n 1
 
 manage-bde -off c:
 manage-bde -off d:
