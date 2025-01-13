@@ -4,11 +4,11 @@ cd /d "%~dp0" && ( if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs" ) &&
 
 setlocal enabledelayedexpansion
 
-:: Tìm file version.txt
+:: Tìm file ver.txt
 for %%D in (A B D E F G H I J K L M N O P Q R S T U V W X Y Z) do (
     if exist %%D:\ (
         echo Dang tim trong %%D:\
-        for /f "delims=" %%F in ('dir /s /b %%D:\version.txt 2^>nul') do (
+        for /f "delims=" %%F in ('dir /s /b %%D:\ver.txt 2^>nul') do (
             set "filePath=%%~dpF"
             echo File o "!filePath!"
             goto found
@@ -16,32 +16,32 @@ for %%D in (A B D E F G H I J K L M N O P Q R S T U V W X Y Z) do (
     )
 )
 
-echo Khong tim thay version.txt trong cac o da chi dinh.
+echo Khong tim thay ver.txt trong cac o da chi dinh.
 goto end
 
 :found
 :: Tải về file versiontemp.txt
 echo Dang tai file versiontemp.txt...
-powershell -Command "Invoke-WebRequest -Uri 'https://github.com/minhtuan283/AutoSoft/raw/main/version.txt' -OutFile '%temp%\versiontemp.txt'"
+powershell -Command "Invoke-WebRequest -Uri 'https://github.com/minhtuan283/AutoSoft/raw/main/ver.txt' -OutFile '%temp%\versiontemp.txt'"
 
-:: Đọc nội dung của 2 file version.txt và versiontemp.txt
-set /p versionFile=<"!filePath!version.txt"
+:: Đọc nội dung của 2 file ver.txt và versiontemp.txt
+set /p versionFile=<"!filePath!ver.txt"
 set /p versionTemp=<"%temp%\versiontemp.txt"
 
-:: Hiển thị giá trị version.txt và versiontemp.txt
-echo version.txt: !versionFile!
+:: Hiển thị giá trị ver.txt và versiontemp.txt
+echo ver.txt: !versionFile!
 echo versiontemp.txt: !versionTemp!
 
-:: So sánh version.txt và versiontemp.txt
+:: So sánh ver.txt và versiontemp.txt
 if !versionTemp! leq !versionFile! (
     echo Soft da la phien ban moi nhat.
 ) else (
     echo Da co phien ban moi.
     
-    :: Xóa file version.txt cũ và chép đè versiontemp.txt
-    echo Xoa file version.txt cu va chep de versiontemp.txt vao: !filePath!
-    del /f /q "!filePath!version.txt"
-    copy /y "%temp%\versiontemp.txt" "!filePath!version.txt"
+    :: Xóa file ver.txt cũ và chép đè versiontemp.txt
+    echo Xoa file ver.txt cu va chep de versiontemp.txt vao: !filePath!
+    del /f /q "!filePath!ver.txt"
+    copy /y "%temp%\versiontemp.txt" "!filePath!ver.txt"
 
     :: Tải về file Auto-MT.bat và sao chép vào đường dẫn filePath
     echo Dang tai file Auto-MT.bat...
