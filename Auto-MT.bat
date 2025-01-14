@@ -212,7 +212,7 @@ rem xcopy /e "%~dp0Script\windowsbackup.bat" C:\Windows\System32
 rem schtasks /create /tn "SystemBackup" /xml "C:\Windows\Soft\Script\SystemBackup.xml" /f
 
 ping 127.0.0.1 -n 3
-powershell -executionpolicy unrestricted %~dp0\pause-7d.ps1
+powershell -executionpolicy unrestricted %~dp0Script\uninstall.ps1
 
 rem Double check Zalo
 if not exist "%USERPROFILE%\AppData\Local\Programs\Zalo\Zalo.exe" (
