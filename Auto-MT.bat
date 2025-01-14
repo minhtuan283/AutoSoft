@@ -23,7 +23,7 @@ echo  " \/ /   | |_) | '_ \ / _ \| '_ \ / _` |  \ \ / / | | |   \/ / "
 echo  " / /\   |  __/| | | | (_) | | | | (_| |   \ V /| |_| |   / /\ "
 echo  "/ /\ \  |_|   |_| |_|\___/|_| |_|\__, |    \_/  \__,_|  / /\ \"
 echo  "\ \/ /                           |___/                  \ \/ /"
-echo  " \/ /                           AutoSoft v325 by Bunbo   \/ / "
+echo  " \/ /                           AutoSoft v328 by Bunbo   \/ / "
 echo  " / /\.--..--..--..--..--..--..--..--..--..--..--..--..--./ /\ "
 echo  "/ /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \"
 echo  "\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `' /"
@@ -92,7 +92,7 @@ if %DungLuongGb% LSS 150 (
 ping 127.0.0.1 -n 1
 label d: DATA
 echo Da chia o xong
-ping 127.0.0.1 -n 2
+ping 127.0.0.1 -n 3
 goto :code
 :code
 start "" /min "%~dp0Script\internet.bat"
@@ -111,18 +111,18 @@ rmdir /s /q "%USERPROFILE%\desktop\1-Soft"
 regedit.exe /S %~dp0Script\International.reg
 w32tm /resync
 ping 127.0.0.1 -n 1
-start %~dp0App\Chrome.exe /silent /install
+start /min cmd /c "start %~dp0App\Chrome.exe /silent /install"
 echo Chorme
 ping 127.0.0.1 -n 3
 
-start %~dp0App\Zalo.exe /ForceInstall /VERYSILENT DESKTOP_SHORTCUT="1" MAKEDEFAULT="1" VIEWINBROWSER="0" LAUNCHCHECKDEFAULT="0" AUTO_UPDATE="2" /passive /norestart /S
+start /min cmd /c "start %~dp0App\Zalo.exe /ForceInstall /VERYSILENT DESKTOP_SHORTCUT="1" MAKEDEFAULT="1" VIEWINBROWSER="0" LAUNCHCHECKDEFAULT="0" AUTO_UPDATE="2" /passive /norestart /S"
 echo Zalo
 ping 127.0.0.1 -n 2
-start %~dp0App\Winrar.exe /s
+start /min cmd /c "start %~dp0App\Winrar.exe /s"
 echo winrar
 ping 127.0.0.1 -n 2
 
-start %~dp0App\Kingsoft.exe /s
+start /min cmd /c "start %~dp0App\Kingsoft.exe /s"
 echo WPS
 ping 127.0.0.1 -n 1
 rem UAC new
@@ -165,20 +165,20 @@ powercfg /S SCHEME_CURRENT
 
 ping 127.0.0.1 -n 1
 
-start %~dp0App\Foxit.exe /ForceInstall /VERYSILENT DESKTOP_SHORTCUT="1" MAKEDEFAULT="1" VIEWINBROWSER="0" LAUNCHCHECKDEFAULT="0" AUTO_UPDATE="2" /passive /norestart /S
+start /min cmd /c "start %~dp0App\Foxit.exe /ForceInstall /VERYSILENT DESKTOP_SHORTCUT="1" MAKEDEFAULT="1" VIEWINBROWSER="0" LAUNCHCHECKDEFAULT="0" AUTO_UPDATE="2" /passive /norestart /S"
 echo foxit
 ping 127.0.0.1 -n 1
-start %~dp0App\UltraViewer.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-
+start /min cmd /c "start %~dp0App\UltraViewer.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-"
 echo ultraview
 
-start %~dp0App\Codec.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-
+start /min cmd /c "start %~dp0App\Codec.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-"
 echo Codec
 
-start %~dp0App\UniKey.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /MERGETASKS="desktopicon" /SP-
+start /min cmd /c "start %~dp0App\UniKey.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /MERGETASKS="desktopicon" /SP-"
 echo unikey
 ping 127.0.0.1 -n 1
 
-start %~dp0App\Fontfull.msi /quiet
+start /min cmd /c "start %~dp0App\Fontfull.msi /quiet"
 echo font
 
 ping 127.0.0.1 -n 1
@@ -210,7 +210,11 @@ rem schtasks /create /tn "SystemBackup" /xml "%~dp0\Script\SystemBackup.xml" /f
 
 ping 127.0.0.1 -n 3
 powershell -executionpolicy unrestricted %~dp0Script\uninstall.ps1
+xcopy "%~dp0ver.txt" "C:\Windows\" /Y
+xcopy "%~dp0Script\clean.bat" "C:\Windows\" /Y
+xcopy "%~dp0Script\cleann.bat" "C:\Windows\" /Y
 
+schtasks /create /tn "DeleteAuto" /xml "%~dp0Script\DeleteAuto.xml" /f
 rem Double check Zalo
 if not exist "%USERPROFILE%\AppData\Local\Programs\Zalo\Zalo.exe" (
     start "" "%~dp0App\Zalo.exe" /ForceInstall /VERYSILENT DESKTOP_SHORTCUT="1" MAKEDEFAULT="1" VIEWINBROWSER="0" LAUNCHCHECKDEFAULT="0" AUTO_UPDATE="2" /passive /norestart /S
