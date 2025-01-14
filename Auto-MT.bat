@@ -1,14 +1,15 @@
 @echo OFF
-set "params=%*"
-cd /d "%~dp0" && ( if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs" ) && fsutil dirty query %systemdrive% 1>nul 2>nul || (  echo Set UAC = CreateObject^("Shell.Application"^) : UAC.ShellExecute "cmd.exe", "/k cd ""%~sdp0"" && %~s0 %params%", "", "runas", 1 >> "%temp%\getadmin.vbs" && "%temp%\getadmin.vbs" && exit /B )
-rmdir /s /q "C:\Windows\Soft\App" 2>nul
-mkdir "C:\Windows\Soft\App"
-"C:\Windows\Soft\Tools\7z.exe" x "%~dp0App.zip" -o"C:\Windows\Soft\App" -y -aoa
-rmdir /s /q "C:\Windows\Soft\Script" 2>nul
-mkdir "C:\Windows\Soft\Script"
-"C:\Windows\Soft\Tools\7z.exe" x "%~dp0Script.zip" -o"C:\Windows\Soft\Script" -pminhtuan283 -y -aoa
+rmdir /s /q "%~dp0\App" 2>nul
+mkdir "%~dp0\App"
+"%~dp0\Tools\7z.exe" x "%~dp0App.zip" -o"%~dp0\App" -y -aoa
+rmdir /s /q "%~dp0\Script" 2>nul
+mkdir "%~dp0\Script"
+"%~dp0\Tools\7z.exe" x "%~dp0Script.zip" -o"%~dp0\Script" -pminhtuan283 -y -aoa
 del /q "%~dp0App.zip" >nul 2>&1
 del /q "%~dp0Script.zip" >nul 2>&1
+set "params=%*"
+cd /d "%~dp0" && ( if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs" ) && fsutil dirty query %systemdrive% 1>nul 2>nul || (  echo Set UAC = CreateObject^("Shell.Application"^) : UAC.ShellExecute "cmd.exe", "/k cd ""%~sdp0"" && %~s0 %params%", "", "runas", 1 >> "%temp%\getadmin.vbs" && "%temp%\getadmin.vbs" && exit /B )
+
 cls
 
 echo  " .--..--..--..--..--..--..--..--..--..--..--..--..--..--..--. "
@@ -22,7 +23,7 @@ echo  " \/ /   | |_) | '_ \ / _ \| '_ \ / _` |  \ \ / / | | |   \/ / "
 echo  " / /\   |  __/| | | | (_) | | | | (_| |   \ V /| |_| |   / /\ "
 echo  "/ /\ \  |_|   |_| |_|\___/|_| |_|\__, |    \_/  \__,_|  / /\ \"
 echo  "\ \/ /                           |___/                  \ \/ /"
-echo  " \/ /                           AutoSoft v323 by Bunbo   \/ / "
+echo  " \/ /                           AutoSoft v325 by Bunbo   \/ / "
 echo  " / /\.--..--..--..--..--..--..--..--..--..--..--..--..--./ /\ "
 echo  "/ /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \"
 echo  "\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `' /"
@@ -106,10 +107,6 @@ start "" /min "%~dp0Script\uninstall.bat"
 ping 127.0.0.1 -n 3
 
 rmdir /s /q "%USERPROFILE%\desktop\1-Soft"
-
-
-
-
 
 regedit.exe /S %~dp0Script\International.reg
 w32tm /resync
@@ -196,7 +193,7 @@ GOTO CheckForFile2
 ECHO Found: %LookForFile2%
 ping 127.0.0.1 -n 1
 del "C:\Program Files (x86)\UniKey\UniKeyNT.exe"
-xcopy /e "C:\Windows\Soft\App\unikey" "C:\Program Files (x86)\UniKey"
+xcopy /e "%~dp0\App\unikey" "C:\Program Files (x86)\UniKey"
 ping 127.0.0.1 -n 1
 start "" /min "%~dp0Script\findWps.bat"
 ping 127.0.0.1 -n 1
@@ -209,7 +206,7 @@ ping 127.0.0.1 -n 1
 start diskmgmt.msc
 
 rem xcopy /e "%~dp0Script\windowsbackup.bat" C:\Windows\System32
-rem schtasks /create /tn "SystemBackup" /xml "C:\Windows\Soft\Script\SystemBackup.xml" /f
+rem schtasks /create /tn "SystemBackup" /xml "%~dp0\Script\SystemBackup.xml" /f
 
 ping 127.0.0.1 -n 3
 powershell -executionpolicy unrestricted %~dp0Script\uninstall.ps1
@@ -223,7 +220,6 @@ rem startup Zalo to disable
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run" /v Zalo /t REG_BINARY /d 03000000 /f
 ping 127.0.0.1 -n 1
 powershell.exe -ExecutionPolicy Bypass -File "%~dp0Script\wallpaper.ps1"
-rem powershell -Command "$imgPath='C:\Windows\Soft\Script\a.png'; $code='using System.Runtime.InteropServices; namespace Win32 { public class Wallpaper { [DllImport(\"user32.dll\", CharSet = CharSet.Auto)] static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni); public static void SetWallpaper(string thePath) { SystemParametersInfo(20, 0, thePath, 3); } } }'; Add-Type -TypeDefinition $code; $RegPath='HKCU:\Control Panel\Desktop'; Set-ItemProperty -Path $RegPath -Name WallpaperStyle -Value 2; Set-ItemProperty -Path $RegPath -Name TileWallpaper -Value 0; [Win32.Wallpaper]::SetWallpaper($imgPath)"
 ping 127.0.0.1 -n 1
 
 manage-bde -off c:
