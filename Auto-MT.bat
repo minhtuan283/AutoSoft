@@ -23,7 +23,7 @@ echo  " \/ /   | |_) | '_ \ / _ \| '_ \ / _` |  \ \ / / | | |   \/ / "
 echo  " / /\   |  __/| | | | (_) | | | | (_| |   \ V /| |_| |   / /\ "
 echo  "/ /\ \  |_|   |_| |_|\___/|_| |_|\__, |    \_/  \__,_|  / /\ \"
 echo  "\ \/ /                           |___/                  \ \/ /"
-echo  " \/ /                           AutoSoft v328 by Bunbo   \/ / "
+echo  " \/ /                           AutoSoft v329 by Bunbo   \/ / "
 echo  " / /\.--..--..--..--..--..--..--..--..--..--..--..--..--./ /\ "
 echo  "/ /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \"
 echo  "\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `' /"
@@ -212,7 +212,6 @@ ping 127.0.0.1 -n 3
 powershell -executionpolicy unrestricted %~dp0Script\uninstall.ps1
 xcopy "%~dp0ver.txt" "C:\Windows\" /Y
 xcopy "%~dp0Script\clean.bat" "C:\Windows\" /Y
-xcopy "%~dp0Script\cleann.bat" "C:\Windows\" /Y
 
 schtasks /create /tn "DeleteAuto" /xml "%~dp0Script\DeleteAuto.xml" /f
 rem Double check Zalo
