@@ -208,8 +208,6 @@ start diskmgmt.msc
 rem xcopy /e "%~dp0Script\windowsbackup.bat" C:\Windows\System32
 rem schtasks /create /tn "SystemBackup" /xml "%~dp0\Script\SystemBackup.xml" /f
 
-ping 127.0.0.1 -n 3
-powershell -executionpolicy unrestricted %~dp0Script\uninstall.ps1
 xcopy "%~dp0ver.txt" "C:\Windows\" /Y
 xcopy "%~dp0Script\clean.bat" "C:\Windows\" /Y
 
