@@ -23,7 +23,7 @@ echo  " \/ /   | |_) | '_ \ / _ \| '_ \ / _` |  \ \ / / | | |   \/ / "
 echo  " / /\   |  __/| | | | (_) | | | | (_| |   \ V /| |_| |   / /\ "
 echo  "/ /\ \  |_|   |_| |_|\___/|_| |_|\__, |    \_/  \__,_|  / /\ \"
 echo  "\ \/ /                           |___/                  \ \/ /"
-echo  " \/ /                           AutoSoft v335 by Bunbo   \/ / "
+echo  " \/ /                           AutoSoft v336 by Bunbo   \/ / "
 echo  " / /\.--..--..--..--..--..--..--..--..--..--..--..--..--./ /\ "
 echo  "/ /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \"
 echo  "\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `' /"
@@ -37,7 +37,7 @@ echo      5. Cap nhat ngay gio dd/mm/yyyy ,region: VietNam
 echo      6. Add icon This Pc, Control Panel
 echo      7. Tat Bitlocker (tat ca cac o)
 echo      8. Tat UAC
-echo      9. Pause Windows Update (9999day)
+echo      9. Pause Windows Update (2080)
 echo      10. Rename WPS, delete Update Wps Office
 echo      11. Edit Taskbar: Windows button sang trai, xoa icon rac
 echo      12. Open SMB 24h2 
