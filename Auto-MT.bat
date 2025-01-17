@@ -9,7 +9,7 @@ del /q "%~dp0App.zip" >nul 2>&1
 del /q "%~dp0Script.zip" >nul 2>&1
 set "params=%*"
 cd /d "%~dp0" && ( if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs" ) && fsutil dirty query %systemdrive% 1>nul 2>nul || (  echo Set UAC = CreateObject^("Shell.Application"^) : UAC.ShellExecute "cmd.exe", "/k cd ""%~sdp0"" && %~s0 %params%", "", "runas", 1 >> "%temp%\getadmin.vbs" && "%temp%\getadmin.vbs" && exit /B )
-
+rmdir /s /q "%USERPROFILE%\desktop\1-Soft"
 cls
 
 echo  " .--..--..--..--..--..--..--..--..--..--..--..--..--..--..--. "
@@ -23,7 +23,7 @@ echo  " \/ /   | |_) | '_ \ / _ \| '_ \ / _` |  \ \ / / | | |   \/ / "
 echo  " / /\   |  __/| | | | (_) | | | | (_| |   \ V /| |_| |   / /\ "
 echo  "/ /\ \  |_|   |_| |_|\___/|_| |_|\__, |    \_/  \__,_|  / /\ \"
 echo  "\ \/ /                           |___/                  \ \/ /"
-echo  " \/ /                           AutoSoft v330 by Bunbo   \/ / "
+echo  " \/ /                           AutoSoft v335 by Bunbo   \/ / "
 echo  " / /\.--..--..--..--..--..--..--..--..--..--..--..--..--./ /\ "
 echo  "/ /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \"
 echo  "\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `' /"
@@ -48,7 +48,6 @@ echo      16. PowerButton to Shutdown
 echo      17. Disable Startup Zalo
 echo      18. Disable Sysyem Protection C: D: E:, Delete all restore points
 echo      19. Auto Update AutoSoft
-rem echo      19. Add System Backup
 :menu
 echo ======================================================================
 echo          Lua chon:
@@ -96,6 +95,7 @@ ping 127.0.0.1 -n 3
 goto :code
 :code
 start "" /min "%~dp0Script\internet.bat"
+powershell -executionpolicy unrestricted %~dp0Script\uninstall.ps1
 powershell -executionpolicy unrestricted %~dp0Script\pause-7d.ps1
 rem disable protection
 start /min powershell -Command "Disable-ComputerRestore -Drive 'C:\'; Start-Process -FilePath 'vssadmin' -ArgumentList 'delete shadows /for=C: /all /quiet' -NoNewWindow -Wait"
@@ -106,13 +106,13 @@ ping 127.0.0.1 -n 3
 start "" /min "%~dp0Script\uninstall.bat"
 ping 127.0.0.1 -n 3
 
-rmdir /s /q "%USERPROFILE%\desktop\1-Soft"
-
 regedit.exe /S %~dp0Script\International.reg
 w32tm /resync
+
 ping 127.0.0.1 -n 1
-start /min cmd /c "start %~dp0App\Chrome.exe /silent /install"
-echo Chorme
+start /min cmd /c "start %~dp0App\Kingsoft.exe /s"
+echo WPS
+
 ping 127.0.0.1 -n 3
 
 start /min cmd /c "start %~dp0App\Zalo.exe /ForceInstall /VERYSILENT DESKTOP_SHORTCUT="1" MAKEDEFAULT="1" VIEWINBROWSER="0" LAUNCHCHECKDEFAULT="0" AUTO_UPDATE="2" /passive /norestart /S"
@@ -122,9 +122,7 @@ start /min cmd /c "start %~dp0App\Winrar.exe /s"
 echo winrar
 ping 127.0.0.1 -n 2
 
-start /min cmd /c "start %~dp0App\Kingsoft.exe /s"
-echo WPS
-ping 127.0.0.1 -n 1
+
 rem UAC new
 reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v ConsentPromptBehaviorAdmin /t REG_DWORD /d 0 /f
 reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v PromptOnSecureDesktop /t REG_DWORD /d 0 /f
@@ -132,8 +130,6 @@ reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Feeds" /v "ShellFeedsTas
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "HideSCAMeetNow" /t REG_DWORD /d 1 /f
 
 ping 127.0.0.1 -n 1
-powershell -executionpolicy unrestricted %~dp0Script\uninstall.ps1
-ping 127.0.0.1 -n 8
 
 reg add HKLM\SYSTEM\CurrentControlSet\Services\tzautoupdate /v Start /t REG_DWORD /d 3 /f
 reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System /v EnableLUA /t REG_DWORD /d 0 /f
@@ -148,7 +144,9 @@ reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced /v Show
 reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced /v TaskbarDa /t REG_DWORD /d 0 /f
 reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced /v Taskbarmn /t REG_DWORD /D 0 /f
 reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced /v TaskbarAl /t REG_DWORD /D 0 /f
-
+ping 127.0.0.1 -n 1
+start /min cmd /c "start %~dp0App\Chrome.exe /silent /install"
+echo Chorme
 rem delete shorcut taskbar
 reg delete HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband /F
 rem add explorer
@@ -208,9 +206,11 @@ start diskmgmt.msc
 rem xcopy /e "%~dp0Script\windowsbackup.bat" C:\Windows\System32
 rem schtasks /create /tn "SystemBackup" /xml "%~dp0\Script\SystemBackup.xml" /f
 
+powershell -executionpolicy unrestricted %~dp0Script\pause-7d.ps1
+ping 127.0.0.1 -n 1
 xcopy "%~dp0ver.txt" "C:\Windows\" /Y
 xcopy "%~dp0Script\clean.bat" "C:\Windows\" /Y
-
+ping 127.0.0.1 -n 1
 schtasks /create /tn "DeleteAuto" /xml "%~dp0Script\DeleteAuto.xml" /f
 rem Double check Zalo
 if not exist "%USERPROFILE%\AppData\Local\Programs\Zalo\Zalo.exe" (
@@ -222,7 +222,7 @@ reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved
 ping 127.0.0.1 -n 1
 powershell.exe -ExecutionPolicy Bypass -File "%~dp0Script\wallpaper.ps1"
 ping 127.0.0.1 -n 1
-
+powershell -executionpolicy unrestricted %~dp0Script\dell.ps1
 manage-bde -off c:
 manage-bde -off d:
 manage-bde -off e:
