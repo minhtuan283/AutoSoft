@@ -23,7 +23,7 @@ echo  " \/ /   | |_) | '_ \ / _ \| '_ \ / _` |  \ \ / / | | |   \/ / "
 echo  " / /\   |  __/| | | | (_) | | | | (_| |   \ V /| |_| |   / /\ "
 echo  "/ /\ \  |_|   |_| |_|\___/|_| |_|\__, |    \_/  \__,_|  / /\ \"
 echo  "\ \/ /                           |___/                  \ \/ /"
-echo  " \/ /                           AutoSoft v338 by Bunbo   \/ / "
+echo  " \/ /                           AutoSoft v339 by Bunbo   \/ / "
 echo  " / /\.--..--..--..--..--..--..--..--..--..--..--..--..--./ /\ "
 echo  "/ /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \"
 echo  "\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `' /"
@@ -110,15 +110,15 @@ regedit.exe /S %~dp0Script\International.reg
 w32tm /resync
 
 ping 127.0.0.1 -n 1
-start /min cmd /c "start %~dp0App\Kingsoft.exe /s"
+start %~dp0App\Kingsoft.exe /s
 echo WPS
 
 ping 127.0.0.1 -n 3
 
-start /min cmd /c "start %~dp0App\Zalo.exe /ForceInstall /VERYSILENT DESKTOP_SHORTCUT="1" MAKEDEFAULT="1" VIEWINBROWSER="0" LAUNCHCHECKDEFAULT="0" AUTO_UPDATE="2" /passive /norestart /S"
+start %~dp0App\Zalo.exe /ForceInstall /VERYSILENT DESKTOP_SHORTCUT="1" MAKEDEFAULT="1" VIEWINBROWSER="0" LAUNCHCHECKDEFAULT="0" AUTO_UPDATE="2" /passive /norestart /S
 echo Zalo
 ping 127.0.0.1 -n 2
-start /min cmd /c "start %~dp0App\Winrar.exe /s"
+start %~dp0App\Winrar.exe /s
 echo winrar
 ping 127.0.0.1 -n 2
 
@@ -145,7 +145,7 @@ reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced /v Task
 reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced /v Taskbarmn /t REG_DWORD /D 0 /f
 reg add HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced /v TaskbarAl /t REG_DWORD /D 0 /f
 ping 127.0.0.1 -n 1
-start /min cmd /c "start %~dp0App\Chrome.exe /silent /install"
+start %~dp0App\Chrome.exe /silent /install
 echo Chorme
 rem delete shorcut taskbar
 reg delete HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband /F
@@ -162,21 +162,20 @@ powercfg /S SCHEME_CURRENT
 
 
 ping 127.0.0.1 -n 1
-
-start /min cmd /c "start %~dp0App\Foxit.exe /ForceInstall /VERYSILENT DESKTOP_SHORTCUT="1" MAKEDEFAULT="1" VIEWINBROWSER="0" LAUNCHCHECKDEFAULT="0" AUTO_UPDATE="2" /passive /norestart /S"
+start %~dp0App\Foxit.exe /ForceInstall /VERYSILENT DESKTOP_SHORTCUT="1" MAKEDEFAULT="1" VIEWINBROWSER="0" LAUNCHCHECKDEFAULT="0" AUTO_UPDATE="2" /passive /norestart /S
 echo foxit
 ping 127.0.0.1 -n 1
-start /min cmd /c "start %~dp0App\UltraViewer.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-"
+start %~dp0App\UltraViewer.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-
 echo ultraview
 
-start /min cmd /c "start %~dp0App\Codec.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-"
+start %~dp0App\Codec.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-
 echo Codec
 
-start /min cmd /c "start %~dp0App\UniKey.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /MERGETASKS="desktopicon" /SP-"
+start %~dp0App\UniKey.exe /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /MERGETASKS="desktopicon" /SP-
 echo unikey
 ping 127.0.0.1 -n 1
 
-start /min cmd /c "start %~dp0App\Fontfull.msi /quiet"
+start %~dp0App\Fontfull.msi /quiet
 echo font
 
 ping 127.0.0.1 -n 1
