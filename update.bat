@@ -1,17 +1,26 @@
 @echo off
 set "params=%*"
-cd /d "%~dp0" && ( if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs" ) && fsutil dirty query %systemdrive% 1>nul 2>nul || ( echo Set UAC = CreateObject^("Shell.Application"^) : UAC.ShellExecute "cmd.exe", "/k cd ""%~sdp0"" && %~s0 %params%", "", "runas", 1 >> "%temp%\getadmin.vbs" && "%temp%\getadmin.vbs" && exit /B )
+cd /d "%~dp0" && (
+    if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs"
+) && fsutil dirty query %systemdrive% 1>nul 2>nul || (
+    echo Set UAC = CreateObject^("Shell.Application"^) : UAC.ShellExecute "cmd.exe", "/k cd ""%~sdp0"" && %~s0 %params%", "", "runas", 1 >> "%temp%\getadmin.vbs"
+    "%temp%\getadmin.vbs" && exit /B
+)
 
 setlocal enabledelayedexpansion
 
-:: Tìm file ver.txt
-for %%D in (A B D E F G H I J K L M N O P Q R S T U V W X Y Z) do (
-    if exist %%D:\ (
-        echo Dang tim trong %%D:\
-        for /f "delims=" %%F in ('dir /s /b %%D:\ver.txt 2^>nul') do (
-            set "filePath=%%~dpF"
-            echo File o "!filePath!"
-            goto found
+:: Tìm file ver.txt chỉ trong USB
+set "filePath="
+for %%d in (D E F G H I J K L M N O P Q R S T U V W X Y Z) do (
+    if exist %%d:\ (
+        fsutil fsinfo drivetype %%d:\ | find /i "Removable" >nul
+        if not errorlevel 1 (
+            echo USB o vi tri %%d:\
+            for /f "delims=" %%a in ('dir /b /s "%%d:\ver.txt" 2^>nul') do (
+                set "filePath=%%~dpa"
+                echo Da tim thay ver.txt trong thu muc: !filePath!
+                goto found
+            )
         )
     )
 )
@@ -70,15 +79,24 @@ if !versionTemp! leq !versionFile! (
     echo Sao chep Script.zip vao: !filePath!
     copy /y "%temp%\Script.zip" "!filePath!Script.zip"
 
-    :: Tìm file Run.bat và lưu thư mục chứa file vào biến filePath2
-    for %%D in (A B D E F G H I J K L M N O P Q R S T U V W X Y Z) do (
-        if exist %%D:\ (
-            for /f "delims=" %%b in ('dir /b /s "%%D:\Run.bat" 2^>nul') do (
-                set "filePath2=%%~dpb"
-                goto runbat_found
+    :: Tìm file Run.bat chỉ trong USB và lưu thư mục chứa file vào biến filePath2
+    set "filePath2="
+    for %%d in (D E F G H I J K L M N O P Q R S T U V W X Y Z) do (
+        if exist %%d:\ (
+            fsutil fsinfo drivetype %%d:\ | find /i "Removable" >nul
+            if not errorlevel 1 (
+                echo USB ở ổ %%d:\
+                for /f "delims=" %%b in ('dir /b /s "%%d:\Run.bat" 2^>nul') do (
+                    set "filePath2=%%~dpb"
+                    echo da tim thay Run.bat trong thu muc: !filePath2!
+                    goto runbat_found
+                )
             )
         )
     )
+
+    echo Khong tim thay Run.bat trong cac o USB.
+    goto end
 
     :runbat_found
     :: Xóa file Run.bat cũ tại !filePath2!
