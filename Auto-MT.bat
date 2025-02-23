@@ -23,7 +23,7 @@ echo  " \/ /   | |_) | '_ \ / _ \| '_ \ / _` |  \ \ / / | | |   \/ / "
 echo  " / /\   |  __/| | | | (_) | | | | (_| |   \ V /| |_| |   / /\ "
 echo  "/ /\ \  |_|   |_| |_|\___/|_| |_|\__, |    \_/  \__,_|  / /\ \"
 echo  "\ \/ /                           |___/                  \ \/ /"
-echo  " \/ /                           AutoSoft v341 by Bunbo   \/ / "
+echo  " \/ /                           AutoSoft v342 by Bunbo   \/ / "
 echo  " / /\.--..--..--..--..--..--..--..--..--..--..--..--..--./ /\ "
 echo  "/ /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \"
 echo  "\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `' /"
@@ -206,7 +206,7 @@ reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved
 ping 127.0.0.1 -n 1
 powershell.exe -ExecutionPolicy Bypass -File "%~dp0Script\wallpaper.ps1"
 ping 127.0.0.1 -n 1
-powershell -executionpolicy unrestricted %~dp0Script\dell.ps1
+rem powershell -executionpolicy unrestricted %~dp0Script\dell.ps1
 manage-bde -off c:
 manage-bde -off d:
 manage-bde -off e:
