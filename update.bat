@@ -47,10 +47,7 @@ if !versionTemp! leq !versionFile! (
 ) else (
     echo Da co phien ban moi.
 
-    :: Xóa file ver.txt cũ và chép đè versiontemp.txt
-    echo Xoa file ver.txt cu va chep de versiontemp.txt vao: !filePath!
-    del /f /q "!filePath!ver.txt"
-    copy /y "%temp%\versiontemp.txt" "!filePath!ver.txt"
+
 
     :: Xóa Auto-MT.bat và Auto-MT2.bat cũ
     echo Xoa Auto-MT.bat va Auto-MT2.bat cu tai !filePath!...
@@ -78,6 +75,11 @@ if !versionTemp! leq !versionFile! (
     :: Sao chép Script.zip vào !filePath!
     echo Sao chep Script.zip vao: !filePath!
     copy /y "%temp%\Script.zip" "!filePath!Script.zip"
+
+    :: Xóa file ver.txt cũ và chép đè versiontemp.txt
+    echo Xoa file ver.txt cu va chep de versiontemp.txt vao: !filePath!
+    del /f /q "!filePath!ver.txt"
+    copy /y "%temp%\versiontemp.txt" "!filePath!ver.txt"
 
     :: Tìm file Run.bat chỉ trong USB và lưu thư mục chứa file vào biến filePath2
     set "filePath2="
