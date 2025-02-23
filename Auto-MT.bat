@@ -23,7 +23,7 @@ echo  " \/ /   | |_) | '_ \ / _ \| '_ \ / _` |  \ \ / / | | |   \/ / "
 echo  " / /\   |  __/| | | | (_) | | | | (_| |   \ V /| |_| |   / /\ "
 echo  "/ /\ \  |_|   |_| |_|\___/|_| |_|\__, |    \_/  \__,_|  / /\ \"
 echo  "\ \/ /                           |___/                  \ \/ /"
-echo  " \/ /                           AutoSoft v340 by Bunbo   \/ / "
+echo  " \/ /                           AutoSoft v341 by Bunbo   \/ / "
 echo  " / /\.--..--..--..--..--..--..--..--..--..--..--..--..--./ /\ "
 echo  "/ /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \"
 echo  "\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `' /"
@@ -48,22 +48,7 @@ echo      16. PowerButton to Shutdown
 echo      17. Disable Startup Zalo
 echo      18. Disable Sysyem Protection C: D: E:, Delete all restore points
 echo      19. Auto Update AutoSoft
-:menu
-echo ======================================================================
-echo          Lua chon:
-echo                      1. CHIA O DIA
-echo                      2. KHONG CHIA O DIA
-echo .
-echo ======================================================================
-set /p choice=Nhap vao: 
-if "%choice%"=="1" goto :chiaodia
-if "%choice%"=="2" goto :code
-echo Vui Long Nhap Lai!
-pause
-cls
-goto :menu
-
-:chiaodia
+echo =======================================================================
 echo Chuan bi chia o dia
 ping 127.0.0.1 -n 6
 diskpart.exe /s %~dp0\Script\doiten.txt
@@ -92,8 +77,7 @@ ping 127.0.0.1 -n 1
 label d: DATA
 echo Da chia o xong
 ping 127.0.0.1 -n 3
-goto :code
-:code
+
 start "" /min "%~dp0Script\internet.bat"
 powershell -executionpolicy unrestricted %~dp0Script\uninstall.ps1
 powershell -executionpolicy unrestricted %~dp0Script\pause-7d.ps1
