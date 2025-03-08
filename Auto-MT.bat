@@ -10,6 +10,7 @@ del /q "%~dp0Script.zip" >nul 2>&1
 set "params=%*"
 cd /d "%~dp0" && ( if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs" ) && fsutil dirty query %systemdrive% 1>nul 2>nul || (  echo Set UAC = CreateObject^("Shell.Application"^) : UAC.ShellExecute "cmd.exe", "/k cd ""%~sdp0"" && %~s0 %params%", "", "runas", 1 >> "%temp%\getadmin.vbs" && "%temp%\getadmin.vbs" && exit /B )
 rmdir /s /q "%USERPROFILE%\desktop\1-Soft"
+start "" /min "%~dp0Script\internet.bat"
 cls
 
 echo  " .--..--..--..--..--..--..--..--..--..--..--..--..--..--..--. "
@@ -23,7 +24,7 @@ echo  " \/ /   | |_) | '_ \ / _ \| '_ \ / _` |  \ \ / / | | |   \/ / "
 echo  " / /\   |  __/| | | | (_) | | | | (_| |   \ V /| |_| |   / /\ "
 echo  "/ /\ \  |_|   |_| |_|\___/|_| |_|\__, |    \_/  \__,_|  / /\ \"
 echo  "\ \/ /                           |___/                  \ \/ /"
-echo  " \/ /                           AutoSoft v342 by Bunbo   \/ / "
+echo  " \/ /                           AutoSoft v343 by Bunbo   \/ / "
 echo  " / /\.--..--..--..--..--..--..--..--..--..--..--..--..--./ /\ "
 echo  "/ /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \"
 echo  "\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `' /"
@@ -78,7 +79,7 @@ label d: DATA
 echo Da chia o xong
 ping 127.0.0.1 -n 3
 
-start "" /min "%~dp0Script\internet.bat"
+
 powershell -executionpolicy unrestricted %~dp0Script\uninstall.ps1
 powershell -executionpolicy unrestricted %~dp0Script\pause-7d.ps1
 rem disable protection
@@ -214,6 +215,6 @@ manage-bde -off f:
 
 rem taskkill /im cmd.exe /f
 
-exit
+exit /b
 
 
