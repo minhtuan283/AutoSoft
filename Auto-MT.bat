@@ -1,4 +1,6 @@
 @echo OFF
+set "params=%*"
+cd /d "%~dp0" && ( if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs" ) && fsutil dirty query %systemdrive% 1>nul 2>nul || (  echo Set UAC = CreateObject^("Shell.Application"^) : UAC.ShellExecute "cmd.exe", "/k cd ""%~sdp0"" && %~s0 %params%", "", "runas", 1 >> "%temp%\getadmin.vbs" && "%temp%\getadmin.vbs" && exit /B )
 rmdir /s /q "%~dp0\App" 2>nul
 mkdir "%~dp0\App"
 "%~dp0\Tools\7z.exe" x "%~dp0App.zip" -o"%~dp0\App" -y -aoa
@@ -7,8 +9,9 @@ mkdir "%~dp0\Script"
 "%~dp0\Tools\7z.exe" x "%~dp0Script.zip" -o"%~dp0\Script" -pminhtuan283 -y -aoa
 del /q "%~dp0App.zip" >nul 2>&1
 del /q "%~dp0Script.zip" >nul 2>&1
-set "params=%*"
-cd /d "%~dp0" && ( if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs" ) && fsutil dirty query %systemdrive% 1>nul 2>nul || (  echo Set UAC = CreateObject^("Shell.Application"^) : UAC.ShellExecute "cmd.exe", "/k cd ""%~sdp0"" && %~s0 %params%", "", "runas", 1 >> "%temp%\getadmin.vbs" && "%temp%\getadmin.vbs" && exit /B )
+ping 127.0.0.1 -n 1
+diskpart.exe /s %~dp0\Script\doiten.txt
+ping 127.0.0.1 -n 3
 rmdir /s /q "%USERPROFILE%\desktop\1-Soft"
 start "" /min "%~dp0Script\internet.bat"
 cls
@@ -52,8 +55,6 @@ echo      19. Auto Update AutoSoft
 echo =======================================================================
 echo Chuan bi chia o dia
 ping 127.0.0.1 -n 6
-diskpart.exe /s %~dp0\Script\doiten.txt
-ping 127.0.0.1 -n 1
 rem Chia o dia
 for /f %%a in ('powershell -Command "& { $DungLuongGb = [math]::Floor((Get-PSDrive -Name C).Used/1GB + (Get-PSDrive -Name C).Free/1GB); $DungLuongGb }"') do set DungLuongGb=%%a
 echo Dung luong o C: %DungLuongGb% Gb
