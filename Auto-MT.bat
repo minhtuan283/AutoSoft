@@ -54,7 +54,7 @@ echo      18. Disable Sysyem Protection C: D: E:, Delete all restore points
 echo      19. Auto Update AutoSoft
 echo =======================================================================
 echo Chuan bi chia o dia
-ping 127.0.0.1 -n 6
+ping 127.0.0.1 -n 3
 rem Chia o dia
 for /f %%a in ('powershell -Command "& { $DungLuongGb = [math]::Floor((Get-PSDrive -Name C).Used/1GB + (Get-PSDrive -Name C).Free/1GB); $DungLuongGb }"') do set DungLuongGb=%%a
 echo Dung luong o C: %DungLuongGb% Gb
