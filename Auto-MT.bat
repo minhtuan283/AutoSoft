@@ -28,7 +28,7 @@ echo  " \/ /   | |_) | '_ \ / _ \| '_ \ / _` |  \ \ / / | | |   \/ / "
 echo  " / /\   |  __/| | | | (_) | | | | (_| |   \ V /| |_| |   / /\ "
 echo  "/ /\ \  |_|   |_| |_|\___/|_| |_|\__, |    \_/  \__,_|  / /\ \"
 echo  "\ \/ /                           |___/                  \ \/ /"
-echo  " \/ /                           AutoSoft v347 by Bunbo   \/ / "
+echo  " \/ /                           AutoSoft v348 by Bunbo   \/ / "
 echo  " / /\.--..--..--..--..--..--..--..--..--..--..--..--..--./ /\ "
 echo  "/ /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \"
 echo  "\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `' /"
@@ -196,7 +196,7 @@ powershell -executionpolicy unrestricted %~dp0Script\pause-7d.ps1
 ping 127.0.0.1 -n 1
 xcopy "%~dp0ver.txt" "C:\Windows\" /Y
 xcopy "%~dp0Script\clean.bat" "C:\Windows\" /Y
-xcopy "%~dp0App\a.png" "C:\Windows\" /Y
+rem xcopy "%~dp0App\a.png" "C:\Windows\" /Y
 ping 127.0.0.1 -n 1
 schtasks /create /tn "DeleteAuto" /xml "%~dp0Script\DeleteAuto.xml" /f
 rem Double check Zalo
@@ -207,7 +207,7 @@ if not exist "%USERPROFILE%\AppData\Local\Programs\Zalo\Zalo.exe" (
 rem startup Zalo to disable
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run" /v Zalo /t REG_BINARY /d 03000000 /f
 ping 127.0.0.1 -n 1
-powershell.exe -ExecutionPolicy Bypass -File "%~dp0Script\wallpaper.ps1"
+rem powershell.exe -ExecutionPolicy Bypass -File "%~dp0Script\wallpaper.ps1"
 ping 127.0.0.1 -n 1
 rem powershell -executionpolicy unrestricted %~dp0Script\dell.ps1
 manage-bde -off c:
