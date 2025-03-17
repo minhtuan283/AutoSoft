@@ -25,7 +25,7 @@ echo  " \/ /   | |_) | '_ \ / _ \| '_ \ / _` |  \ \ / / | | |   \/ / "
 echo  " / /\   |  __/| | | | (_) | | | | (_| |   \ V /| |_| |   / /\ "
 echo  "/ /\ \  |_|   |_| |_|\___/|_| |_|\__, |    \_/  \__,_|  / /\ \"
 echo  "\ \/ /                           |___/                  \ \/ /"
-echo  " \/ /                           AutoSoft v349 by Bunbo   \/ / "
+echo  " \/ /                           AutoSoft v350 by Bunbo   \/ / "
 echo  " / /\.--..--..--..--..--..--..--..--..--..--..--..--..--./ /\ "
 echo  "/ /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \"
 echo  "\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `' /"
@@ -50,6 +50,7 @@ echo      16. PowerButton to Shutdown
 echo      17. Disable Startup Zalo
 echo      18. Disable Sysyem Protection C: D: E:, Delete all restore points
 echo      19. Auto Update AutoSoft
+echo      20. Backup SAM
 echo =======================================================================
 echo Chuan bi chia o dia
 
