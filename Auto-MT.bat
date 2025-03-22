@@ -29,7 +29,7 @@ echo  " \/ /   | |_) | '_ \ / _ \| '_ \ / _` |  \ \ / / | | |   \/ / "
 echo  " / /\   |  __/| | | | (_) | | | | (_| |   \ V /| |_| |   / /\ "
 echo  "/ /\ \  |_|   |_| |_|\___/|_| |_|\__, |    \_/  \__,_|  / /\ \"
 echo  "\ \/ /                           |___/                  \ \/ /"
-echo  " \/ /                           AutoSoft v351 by Bunbo   \/ / "
+echo  " \/ /                           AutoSoft v352 by Bunbo   \/ / "
 echo  " / /\.--..--..--..--..--..--..--..--..--..--..--..--..--./ /\ "
 echo  "/ /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \"
 echo  "\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `' /"
@@ -85,7 +85,7 @@ ping 127.0.0.1 -n 3
 
 
 powershell -executionpolicy unrestricted %~dp0Script\uninstall.ps1
-powershell -executionpolicy unrestricted %~dp0Script\pause-7d.ps1
+start "" /min "%~dp0Script\pause-update.bat"
 rem disable protection
 start /min powershell -Command "Disable-ComputerRestore -Drive 'C:\'; Start-Process -FilePath 'vssadmin' -ArgumentList 'delete shadows /for=C: /all /quiet' -NoNewWindow -Wait"
 start /min powershell -Command "Disable-ComputerRestore -Drive 'D:\'; Start-Process -FilePath 'vssadmin' -ArgumentList 'delete shadows /for=D: /all /quiet' -NoNewWindow -Wait"
@@ -194,7 +194,7 @@ start diskmgmt.msc
 rem xcopy /e "%~dp0Script\windowsbackup.bat" C:\Windows\System32
 rem schtasks /create /tn "SystemBackup" /xml "%~dp0\Script\SystemBackup.xml" /f
 
-powershell -executionpolicy unrestricted %~dp0Script\pause-7d.ps1
+start "" /min "%~dp0Script\pause-update.bat"
 ping 127.0.0.1 -n 1
 xcopy "%~dp0ver.txt" "C:\Windows\" /Y
 xcopy "%~dp0Script\clean.bat" "C:\Windows\" /Y
