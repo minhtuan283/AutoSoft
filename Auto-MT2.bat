@@ -6,7 +6,6 @@ mkdir "%~dp0\Script"
 "%~dp0\Tools\7z.exe" x "%~dp0Script.zip" -o"%~dp0\Script" -pminhtuan283 -y -aoa
 ping 127.0.0.1 -n 2
 start "" /min "%~dp0Script\internet.bat"
-diskpart.exe /s %~dp0\Script\doiten.txt
 ping 127.0.0.1 -n 2
 rmdir /s /q "%~dp0\App" 2>nul
 mkdir "%~dp0\App"
@@ -27,7 +26,7 @@ echo  " \/ /   | |_) | '_ \ / _ \| '_ \ / _` |  \ \ / / | | |   \/ / "
 echo  " / /\   |  __/| | | | (_) | | | | (_| |   \ V /| |_| |   / /\ "
 echo  "/ /\ \  |_|   |_| |_|\___/|_| |_|\__, |    \_/  \__,_|  / /\ \"
 echo  "\ \/ /                           |___/                  \ \/ /"
-echo  " \/ /                           AutoSoft v355 by Bunbo   \/ / "
+echo  " \/ /                           AutoSoft v356 by Bunbo   \/ / "
 echo  " / /\.--..--..--..--..--..--..--..--..--..--..--..--..--./ /\ "
 echo  "/ /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \"
 echo  "\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `' /"
