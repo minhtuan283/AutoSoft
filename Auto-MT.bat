@@ -27,7 +27,7 @@ echo  " \/ /   | |_) | '_ \ / _ \| '_ \ / _` |  \ \ / / | | |   \/ / "
 echo  " / /\   |  __/| | | | (_) | | | | (_| |   \ V /| |_| |   / /\ "
 echo  "/ /\ \  |_|   |_| |_|\___/|_| |_|\__, |    \_/  \__,_|  / /\ \"
 echo  "\ \/ /                           |___/                  \ \/ /"
-echo  " \/ /                           AutoSoft v354 by Bunbo   \/ / "
+echo  " \/ /                           AutoSoft v355 by Bunbo   \/ / "
 echo  " / /\.--..--..--..--..--..--..--..--..--..--..--..--..--./ /\ "
 echo  "/ /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \"
 echo  "\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `' /"
@@ -215,6 +215,10 @@ manage-bde -off d:
 manage-bde -off e:
 manage-bde -off f:
 
+SET "LookForFile9=%USERPROFILE%\desktop\WPS Writer.lnk"
+if not exist "%LookForFile9%" (
+    start "" "%~dp0App\Kingsoft.exe" /s
+)
 rem taskkill /im cmd.exe /f
 
 exit
