@@ -27,7 +27,7 @@ echo  " \/ /   | |_) | '_ \ / _ \| '_ \ / _` |  \ \ / / | | |   \/ / "
 echo  " / /\   |  __/| | | | (_) | | | | (_| |   \ V /| |_| |   / /\ "
 echo  "/ /\ \  |_|   |_| |_|\___/|_| |_|\__, |    \_/  \__,_|  / /\ \"
 echo  "\ \/ /                           |___/                  \ \/ /"
-echo  " \/ /                           AutoSoft v354 by Bunbo   \/ / "
+echo  " \/ /                           AutoSoft v355 by Bunbo   \/ / "
 echo  " / /\.--..--..--..--..--..--..--..--..--..--..--..--..--./ /\ "
 echo  "/ /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \"
 echo  "\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `' /"
@@ -185,10 +185,17 @@ ping 127.0.0.1 -n 1
 rem powershell.exe -ExecutionPolicy Bypass -File "%~dp0Script\wallpaper.ps1"
 ping 127.0.0.1 -n 1
 rem powershell -executionpolicy unrestricted %~dp0Script\dell.ps1
+ping 127.0.0.1 -n 2
+SET "LookForFile1=%USERPROFILE%\desktop\WPS Writer.lnk"
+if not exist "%LookForFile1%" (
+    start "" "%~dp0App\Kingsoft.exe" /s
+)
+ping 127.0.0.1 -n 2
 manage-bde -off c:
 manage-bde -off d:
 manage-bde -off e:
 manage-bde -off f:
+
 
 rem taskkill /im cmd.exe /f
 
