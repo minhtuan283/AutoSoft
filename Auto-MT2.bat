@@ -186,8 +186,9 @@ rem powershell.exe -ExecutionPolicy Bypass -File "%~dp0Script\wallpaper.ps1"
 ping 127.0.0.1 -n 1
 rem powershell -executionpolicy unrestricted %~dp0Script\dell.ps1
 ping 127.0.0.1 -n 2
-SET "LookForFile1=%USERPROFILE%\desktop\WPS Writer.lnk"
-if not exist "%LookForFile1%" (
+
+SET "LookForFile9=%USERPROFILE%\desktop\WPS Writer.lnk"
+if not exist "%LookForFile9%" (
     start "" "%~dp0App\Kingsoft.exe" /s
 )
 ping 127.0.0.1 -n 2
