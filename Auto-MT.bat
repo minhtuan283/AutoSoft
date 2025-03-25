@@ -27,7 +27,7 @@ echo  " \/ /   | |_) | '_ \ / _ \| '_ \ / _` |  \ \ / / | | |   \/ / "
 echo  " / /\   |  __/| | | | (_) | | | | (_| |   \ V /| |_| |   / /\ "
 echo  "/ /\ \  |_|   |_| |_|\___/|_| |_|\__, |    \_/  \__,_|  / /\ \"
 echo  "\ \/ /                           |___/                  \ \/ /"
-echo  " \/ /                           AutoSoft v356 by Bunbo   \/ / "
+echo  " \/ /                           AutoSoft v357 by Bunbo   \/ / "
 echo  " / /\.--..--..--..--..--..--..--..--..--..--..--..--..--./ /\ "
 echo  "/ /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \"
 echo  "\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `' /"
@@ -212,7 +212,7 @@ ping 127.0.0.1 -n 1
 rem powershell -executionpolicy unrestricted %~dp0Script\dell.ps1
 ping 127.0.0.1 -n 2
 
-SET "LookForFile9=%USERPROFILE%\desktop\WPS Writer.lnk"
+SET "LookForFile9=C:\Program Files (x86)\Kingsoft\WPS Office\ksolaunch.exe"
 if not exist "%LookForFile9%" (
     start "" "%~dp0App\Kingsoft.exe" /s
 )
