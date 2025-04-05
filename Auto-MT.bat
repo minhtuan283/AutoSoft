@@ -27,7 +27,7 @@ echo  " \/ /   | |_) | '_ \ / _ \| '_ \ / _` |  \ \ / / | | |   \/ / "
 echo  " / /\   |  __/| | | | (_) | | | | (_| |   \ V /| |_| |   / /\ "
 echo  "/ /\ \  |_|   |_| |_|\___/|_| |_|\__, |    \_/  \__,_|  / /\ \"
 echo  "\ \/ /                           |___/                  \ \/ /"
-echo  " \/ /                           AutoSoft v358 by Bunbo   \/ / "
+echo  " \/ /                           AutoSoft v359 by Bunbo   \/ / "
 echo  " / /\.--..--..--..--..--..--..--..--..--..--..--..--..--./ /\ "
 echo  "/ /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \"
 echo  "\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `' /"
@@ -216,11 +216,20 @@ SET "LookForFile9=C:\Program Files (x86)\Kingsoft\WPS Office\ksolaunch.exe"
 if not exist "%LookForFile9%" (
     start "" "%~dp0App\Kingsoft.exe" /s
 )
-ping 127.0.0.1 -n 2
+ping 127.0.0.1 -n 5
 manage-bde -off c:
 manage-bde -off d:
 manage-bde -off e:
 manage-bde -off f:
+ping 127.0.0.1 -n 5
+manage-bde -off c:
+ping 127.0.0.1 -n 2
+manage-bde -off d:
+ping 127.0.0.1 -n 2
+manage-bde -off e:
+ping 127.0.0.1 -n 2
+manage-bde -off f:
+ping 127.0.0.1 -n 2
 rem taskkill /im cmd.exe /f
 
 exit
