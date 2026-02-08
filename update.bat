@@ -29,6 +29,10 @@ echo Khong tim thay ver.txt trong cac o da chi dinh.
 goto end
 
 :found
+:: Lấy đường dẫn thư mục 1-Soft (lùi về 2 cấp từ thư mục chứa ver.txt)
+for %%i in ("!filePath!..\..\") do set "oneSoftPath=%%~fi"
+echo Thu muc 1-Soft: !oneSoftPath!
+
 :: Tải về file versiontemp.txt
 echo Dang tai file versiontemp.txt...
 powershell -Command "Invoke-WebRequest -Uri 'https://github.com/minhtuan283/AutoSoft/raw/main/ver.txt' -OutFile '%temp%\versiontemp.txt'"
@@ -46,8 +50,6 @@ if !versionTemp! leq !versionFile! (
     echo Soft da la phien ban moi nhat.
 ) else (
     echo Da co phien ban moi.
-
-
 
     :: Xóa Auto-MT.bat và Auto-MT2.bat cũ
     echo Xoa Auto-MT.bat va Auto-MT2.bat cu tai !filePath!...
@@ -76,48 +78,29 @@ if !versionTemp! leq !versionFile! (
     echo Sao chep Script.zip vao: !filePath!
     copy /y "%temp%\Script.zip" "!filePath!Script.zip"
 
-    :: Xóa file ver.txt cũ và chép đè versiontemp.txt
-    echo Xoa file ver.txt cu va chep de versiontemp.txt vao: !filePath!
-    del /f /q "!filePath!ver.txt"
-    copy /y "%temp%\versiontemp.txt" "!filePath!ver.txt"
-
-    :: Tìm file Run.bat chỉ trong USB và lưu thư mục chứa file vào biến filePath2
-    set "filePath2="
-    for %%d in (D E F G H I J K L M N O P Q R S T U V W X Y Z) do (
-        if exist %%d:\ (
-            fsutil fsinfo drivetype %%d:\ | find /i "Removable" >nul
-            if not errorlevel 1 (
-                echo USB ở ổ %%d:\
-                for /f "delims=" %%b in ('dir /b /s "%%d:\Run.bat" 2^>nul') do (
-                    set "filePath2=%%~dpb"
-                    echo da tim thay Run.bat trong thu muc: !filePath2!
-                    goto runbat_found
-                )
-            )
-        )
-    )
-
-    echo Khong tim thay Run.bat trong cac o USB.
-    goto end
-
-    :runbat_found
-    :: Xóa file Run.bat cũ tại !filePath2!
-    echo Xoa Run.bat cu tai !filePath2!...
-    del /f /q "!filePath2!Run.bat"
+    :: Xóa file 1-ChiaODia.bat và 2-KoChiaODia.bat cũ tại !oneSoftPath!
+    echo Xoa 1-ChiaODia.bat va 2-KoChiaODia.bat cu tai !oneSoftPath!...
+    del /f /q "!oneSoftPath!1-ChiaODia.bat"
+    del /f /q "!oneSoftPath!2-KoChiaODia.bat"
 
     :: Tải về file 1-ChiaODia.bat và 2-KoChiaODia.bat vào %temp%
     echo Dang tai file 1-ChiaODia.bat va 2-KoChiaODia.bat...
     powershell -Command "Invoke-WebRequest -Uri 'https://github.com/minhtuan283/AutoSoft/raw/main/1-ChiaODia.bat' -OutFile '%temp%\1-ChiaODia.bat'"
     powershell -Command "Invoke-WebRequest -Uri 'https://github.com/minhtuan283/AutoSoft/raw/main/2-KoChiaODia.bat' -OutFile '%temp%\2-KoChiaODia.bat'"
 
-    :: Sao chép 1-ChiaODia.bat và 2-KoChiaODia.bat vào !filePath2!
-    echo Sao chep 1-ChiaODia.bat va 2-KoChiaODia.bat vao: !filePath2!
-    copy /y "%temp%\1-ChiaODia.bat" "!filePath2!1-ChiaODia.bat"
-    copy /y "%temp%\2-KoChiaODia.bat" "!filePath2!2-KoChiaODia.bat"
+    :: Sao chép 1-ChiaODia.bat và 2-KoChiaODia.bat vào !oneSoftPath!
+    echo Sao chep 1-ChiaODia.bat va 2-KoChiaODia.bat vao: !oneSoftPath!
+    copy /y "%temp%\1-ChiaODia.bat" "!oneSoftPath!1-ChiaODia.bat"
+    copy /y "%temp%\2-KoChiaODia.bat" "!oneSoftPath!2-KoChiaODia.bat"
+
+    :: Xóa file ver.txt cũ và chép đè versiontemp.txt
+    echo Xoa file ver.txt cu va chep de versiontemp.txt vao: !filePath!
+    del /f /q "!filePath!ver.txt"
+    copy /y "%temp%\versiontemp.txt" "!filePath!ver.txt"
 
     :: Hiển thị thông báo
-    echo Da tai va sao chep Auto-MT.bat, Auto-MT2.bat, Script.zip vao: !filePath!
-    echo Da tai va sao chep 1-ChiaODia.bat, 2-KoChiaODia.bat vao: !filePath2!
+    echo Da tai va sao chep Auto-MT.bat, Auto-MT2.bat, Script.zip, ver.txt vao: !filePath!
+    echo Da tai va sao chep 1-ChiaODia.bat, 2-KoChiaODia.bat vao: !oneSoftPath!
 )
 
 :: Xóa các file tạm và biến tạm
