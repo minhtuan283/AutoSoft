@@ -13,5 +13,5 @@ catch {
 }
 
 # 3. Chạy file diagcab
-Write-Host "Dang khoi chay..." -ForegroundColor Green
+Write-Host "Bam next next next la ok ..." -ForegroundColor Green
 Start-Process -FilePath $output
