@@ -3,7 +3,7 @@ $url = "https://github.com/minhtuan283/AutoSoft/raw/main/FixOffice.diagcab"
 $output = "$env:TEMP\FixOffice.diagcab"
 
 # 2. Tải file về thư mục Temp
-Write-Host "Dang tai Tool Fix Office..." -ForegroundColor Cyan
+Write-Host "Fix Office by TangTuan" -ForegroundColor Cyan
 try {
     Invoke-WebRequest -Uri $url -OutFile $output -ErrorAction Stop
 }
