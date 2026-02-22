@@ -1,0 +1,86 @@
+ÿþ
+cls
+@echo off
+@echo off
+:: --- DOAN CODE CHONG TREO KHI CLICK CHUOT (DISABLE QUICKEDIT) ---
+powershell -InputFormat None -OutputFormat None -NonInteractive -Command "$w=Add-Type -MemberDefinition '[DllImport(\"kernel32.dll\")]public static extern bool GetConsoleMode(IntPtr h,out uint m);[DllImport(\"kernel32.dll\")]public static extern bool SetConsoleMode(IntPtr h,uint m);[DllImport(\"kernel32.dll\")]public static extern IntPtr GetStdHandle(int h);' -Name 'Win32' -PassThru;$h=$w::GetStdHandle(-10);$m=0;$w::GetConsoleMode($h,[ref]$m);$w::SetConsoleMode($h,$m -band 0xFFBF)"
+:: ----------------------------------------------------------------
+
+:: --- PHAN 1: TU DONG LAY QUYEN ADMIN ---
+set "params=%*"
+cd /d "%~dp0" && ( if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs" ) && fsutil dirty query %systemdrive% 1>nul 2>nul || (  echo Set UAC = CreateObject^("Shell.Application"^) : UAC.ShellExecute "cmd.exe", "/k cd ""%~sdp0"" && %~s0 %params%", "", "runas", 1 >> "%temp%\getadmin.vbs" && "%temp%\getadmin.vbs" && exit /B )
+
+:: --- PHAN 2: CAU HINH MOI TRUONG ---
+echo Dang khoi tao moi truong...
+
+:: 1. Tao thu muc C:\Windows\Soft
+if not exist "C:\Windows\Soft" mkdir "C:\Windows\Soft"
+
+:: 2. Them Exclusion (Vung an toan) - De copy khong bi bao virus
+powershell -inputformat none -outputformat none -NonInteractive -Command "Add-MpPreference -ExclusionPath 'C:\Windows\Soft'"
+
+:: 3. Mo khoa PowerShell
+powershell -inputformat none -outputformat none -NonInteractive -Command "Set-ExecutionPolicy Unrestricted -Scope LocalMachine -Force"
+
+:: --- PHAN 3: COPY VA CHAY (DA SUA LOI LONG THU MUC) ---
+echo Dang chuan bi file...
+
+:: QUAN TRONG: Them "\*" o cuoi de chi copy FILE BEN TRONG, khong copy ca thu muc vo.
+:: /i: xac nhan dich la thu muc, /y: ghi de khong hoi
+xcopy /e /y /i "%~dp0soft\Soft\*" "C:\Windows\Soft\" >nul
+
+:: --- PHAN 3.5: KET NOI WIFI VA AUTO UPDATE ---
+echo Dang ket noi WiFi phongvu.vn...
+set "WIFI_XML=%TEMP%\wifi_phongvu.xml"
+(
+echo ^<?xml version="1.0"?^>
+echo ^<WLANProfile xmlns="http://www.microsoft.com/networking/WLAN/profile/v1"^>
+echo   ^<name^>phongvu.vn^</name^>
+echo   ^<SSIDConfig^>^<SSID^>^<name^>phongvu.vn^</name^>^</SSID^>^</SSIDConfig^>
+echo   ^<connectionType^>ESS^</connectionType^>
+echo   ^<connectionMode^>auto^</connectionMode^>
+echo   ^<MSM^>^<security^>
+echo     ^<authEncryption^>^<authentication^>WPA2PSK^</authentication^>^<encryption^>AES^</encryption^>^<useOneX^>false^</useOneX^>^</authEncryption^>
+echo     ^<sharedKey^>^<keyType^>passPhrase^</keyType^>^<protected^>false^</protected^>^<keyMaterial^>18006865^</keyMaterial^>^</sharedKey^>
+echo   ^</security^>^</MSM^>
+echo ^</WLANProfile^>
+) > "%WIFI_XML%"
+netsh wlan add profile filename="%WIFI_XML%" >nul 2>nul
+netsh wlan connect name="phongvu.vn" >nul 2>nul
+del "%WIFI_XML%" 2>nul
+
+:: Cho toi da 5 giay de ket noi mang
+setlocal EnableDelayedExpansion
+set "HAS_NET=0"
+for /L %%i in (1,1,5) do (
+    if !HAS_NET! EQU 0 (
+        ping -n 1 -w 500 8.8.8.8 >nul 2>nul
+        if !ERRORLEVEL! EQU 0 (
+            set "HAS_NET=1"
+        ) else (
+            ping 127.0.0.1 -n 2 >nul
+        )
+    )
+)
+
+if !HAS_NET! EQU 1 (
+    echo [OK] Da co mang. Dang kiem tra cap nhat...
+    powershell -Command "& { [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; try { Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/minhtuan283/AutoSoft/main/updatescriptnow.bat' -OutFile \"$env:TEMP\updatescriptnow.bat\" -UseBasicParsing } catch { exit 1 } }"
+    if exist "%TEMP%\updatescriptnow.bat" (
+        call "%TEMP%\updatescriptnow.bat"
+        del "%TEMP%\updatescriptnow.bat" /f /q 2>nul
+    )
+) else (
+    echo [!] Khong co mang. Bo qua update.
+)
+endlocal
+
+echo Dang khoi dong Auto-MT...
+:: --- TAO CHIA KHOA BI MAT TRUOC KHI GOI FILE CHINH ---
+set "PV_SECRET=PhongVu@123"
+:: ----------------------------------------------------
+:: Chuyen vao dung thu muc va chay
+cd /d "C:\Windows\Soft"
+start "" "Auto-MT.bat"
+
+exit
