@@ -8,101 +8,115 @@ powershell -InputFormat None -OutputFormat None -NonInteractive -Command "$w=Add
 set "params=%*"
 cd /d "%~dp0" && ( if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs" ) && fsutil dirty query %systemdrive% 1>nul 2>nul || (  echo Set UAC = CreateObject^("Shell.Application"^) : UAC.ShellExecute "cmd.exe", "/k cd ""%~sdp0"" && %~s0 %params%", "", "runas", 1 >> "%temp%\getadmin.vbs" && "%temp%\getadmin.vbs" && exit /B )
 
+
+
 :: ======================================================
 :: updatescriptnow.bat - Auto Update AutoSoft tu GitHub
-:: Kiem tra phien ban va cap nhat cac file moi nhat
+:: Tai file vao TEMP truoc, kiem tra du moi chep de
 :: ======================================================
 
 set "SOFT_DIR=C:\Windows\Soft"
 set "LOCAL_VER_FILE=%SOFT_DIR%\ver.txt"
-set "TEMP_VER=%TEMP%\autosoft_remote_ver.txt"
+set "TEMP_DL=%TEMP%\AutoSoft_Update"
 
 set "GITHUB_RAW=https://raw.githubusercontent.com/minhtuan283/AutoSoft/main"
 set "GITHUB_RELEASE=https://github.com/minhtuan283/AutoSoft/releases/download/Script"
 
-:: --- Doc version local ---
+:: --- Buoc 1: Doc version local ---
 set "LOCAL_VER=0"
 if exist "%LOCAL_VER_FILE%" (
     set /p LOCAL_VER=<"%LOCAL_VER_FILE%"
 )
-:: Loai bo khoang trang
 for /f "tokens=* delims= " %%a in ("!LOCAL_VER!") do set "LOCAL_VER=%%a"
+echo [*] Phien ban hien tai (local): v!LOCAL_VER!
 
-echo [*] Phien ban hien tai (local): !LOCAL_VER!
-
-:: --- Tai version tu GitHub ---
+:: --- Buoc 2: Tao thu muc tam va tai ver.txt tu GitHub ---
 echo [*] Dang kiem tra phien ban moi tren GitHub...
-powershell -Command "try { [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; (New-Object Net.WebClient).DownloadFile('%GITHUB_RAW%/ver.txt', '%TEMP_VER%') } catch { exit 1 }"
+if exist "%TEMP_DL%" rmdir /s /q "%TEMP_DL%" 2>nul
+mkdir "%TEMP_DL%" >nul 2>nul
 
+powershell -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; try { (New-Object Net.WebClient).DownloadFile('%GITHUB_RAW%/ver.txt', '%TEMP_DL%\ver.txt') } catch { exit 1 }"
 if %ERRORLEVEL% NEQ 0 (
-    echo [!] Khong the ket noi den GitHub. Bo qua update.
-    goto :END
+    echo [!] Khong the tai ver.txt tu GitHub. Bo qua update.
+    goto :CLEANUP
 )
 
-if not exist "%TEMP_VER%" (
-    echo [!] Khong tai duoc file ver.txt tu GitHub. Bo qua update.
-    goto :END
-)
-
-:: --- Doc version remote ---
 set "REMOTE_VER=0"
-set /p REMOTE_VER=<"%TEMP_VER%"
+set /p REMOTE_VER=<"%TEMP_DL%\ver.txt"
 for /f "tokens=* delims= " %%a in ("!REMOTE_VER!") do set "REMOTE_VER=%%a"
-del "%TEMP_VER%" 2>nul
+echo [*] Phien ban moi nhat (GitHub): v!REMOTE_VER!
 
-echo [*] Phien ban moi nhat (GitHub): !REMOTE_VER!
-
-:: --- So sanh version ---
+:: --- Buoc 3: So sanh version ---
 if !REMOTE_VER! LEQ !LOCAL_VER! (
     echo [OK] Ban da dung phien ban moi nhat. Khong can update.
-    goto :END
+    goto :CLEANUP
 )
 
 echo.
 echo ================================================================
 echo   PHAT HIEN PHIEN BAN MOI: v!REMOTE_VER! ^(hien tai: v!LOCAL_VER!^)
-echo   Dang cap nhat...
+echo   Dang tai ve thu muc tam...
 echo ================================================================
 echo.
 
-:: --- Tai cac file moi tu GitHub ---
+:: --- Buoc 4: Tai tat ca file vao TEMP truoc ---
+set "DL_OK=1"
+
 echo [1/4] Dang tai Auto-MT.bat...
-powershell -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; (New-Object Net.WebClient).DownloadFile('%GITHUB_RAW%/Auto-MT.bat', '%SOFT_DIR%\Auto-MT.bat')"
-if %ERRORLEVEL% EQU 0 (
-    echo       [✓] Auto-MT.bat da cap nhat
+powershell -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; (New-Object Net.WebClient).DownloadFile('%GITHUB_RAW%/Auto-MT.bat', '%TEMP_DL%\Auto-MT.bat')"
+if not exist "%TEMP_DL%\Auto-MT.bat" (
+    echo       [X] LOI: Khong tai duoc Auto-MT.bat
+    set "DL_OK=0"
 ) else (
-    echo       [X] Loi khi tai Auto-MT.bat
+    echo       [OK] Auto-MT.bat
 )
 
 echo [2/4] Dang tai Auto-MT2.bat...
-powershell -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; (New-Object Net.WebClient).DownloadFile('%GITHUB_RAW%/Auto-MT2.bat', '%SOFT_DIR%\Auto-MT2.bat')"
-if %ERRORLEVEL% EQU 0 (
-    echo       [✓] Auto-MT2.bat da cap nhat
+powershell -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; (New-Object Net.WebClient).DownloadFile('%GITHUB_RAW%/Auto-MT2.bat', '%TEMP_DL%\Auto-MT2.bat')"
+if not exist "%TEMP_DL%\Auto-MT2.bat" (
+    echo       [X] LOI: Khong tai duoc Auto-MT2.bat
+    set "DL_OK=0"
 ) else (
-    echo       [X] Loi khi tai Auto-MT2.bat
+    echo       [OK] Auto-MT2.bat
 )
 
-echo [3/4] Dang tai ver.txt...
-powershell -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; (New-Object Net.WebClient).DownloadFile('%GITHUB_RAW%/ver.txt', '%SOFT_DIR%\ver.txt')"
-if %ERRORLEVEL% EQU 0 (
-    echo       [✓] ver.txt da cap nhat
-) else (
-    echo       [X] Loi khi tai ver.txt
-)
+echo [3/4] ver.txt da tai san o buoc kiem tra.
+echo       [OK] ver.txt
 
 echo [4/4] Dang tai Script.zip (co the mat vai giay)...
-powershell -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; (New-Object Net.WebClient).DownloadFile('%GITHUB_RELEASE%/Script.zip', '%SOFT_DIR%\Script.zip')"
-if %ERRORLEVEL% EQU 0 (
-    echo       [✓] Script.zip da cap nhat
+powershell -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; (New-Object Net.WebClient).DownloadFile('%GITHUB_RELEASE%/Script.zip', '%TEMP_DL%\Script.zip')"
+if not exist "%TEMP_DL%\Script.zip" (
+    echo       [X] LOI: Khong tai duoc Script.zip
+    set "DL_OK=0"
 ) else (
-    echo       [X] Loi khi tai Script.zip
+    echo       [OK] Script.zip
 )
+
+:: --- Buoc 5: Kiem tra tat ca file da tai day du ---
+if !DL_OK! EQU 0 (
+    echo.
+    echo [!!!] MOT SO FILE TAI LOI. HUY UPDATE DE TRANH HONG DU LIEU.
+    echo [!!!] Cac file cu van duoc giu nguyen.
+    goto :CLEANUP
+)
+
+:: --- Buoc 6: Chep de vao vi tri chinh thuc ---
+echo.
+echo [*] Tat ca file da tai thanh cong. Dang chep vao %SOFT_DIR%...
+
+copy /y "%TEMP_DL%\Auto-MT.bat" "%SOFT_DIR%\Auto-MT.bat" >nul
+copy /y "%TEMP_DL%\Auto-MT2.bat" "%SOFT_DIR%\Auto-MT2.bat" >nul
+copy /y "%TEMP_DL%\ver.txt" "%SOFT_DIR%\ver.txt" >nul
+copy /y "%TEMP_DL%\Script.zip" "%SOFT_DIR%\Script.zip" >nul
 
 echo.
 echo ================================================================
 echo   DA CAP NHAT THANH CONG: v!LOCAL_VER! -^> v!REMOTE_VER!
 echo ================================================================
 echo.
+
+:CLEANUP
+if exist "%TEMP_DL%" rmdir /s /q "%TEMP_DL%" 2>nul
 
 :END
 endlocal
