@@ -206,7 +206,7 @@ if !TRY! GEQ 3 (
     exit /b 1
 )
 set /a TRY+=1
-set /p "_=Cam USB vao roi bam Enter de quet lai..."
+set /p "_=BAT BUOC CAM USB VA BAM ENTER DE THU LAI..."
 goto usb_retry
 
 :FindUsbOnce
