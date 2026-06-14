@@ -13,7 +13,7 @@ rem    - App_1.zip = version 1
 rem    - App_2.zip, App_3.zip... = version tuong ung
 rem ============================================================
 
-set "SOURCE_URL=https://sr264.synology.me/sharing/IiP8Ux8rI"
+set "SOURCE_URL=https://nas264.tangtuanlab.io.vn/sharing/BWXoaBsbU"
 set "SOFT_DIR=C:\Windows\Soft"
 set "APP_PREFIX=App"
 set "TEMP_DIR=%TEMP%\updateapp_%RANDOM%%RANDOM%"
