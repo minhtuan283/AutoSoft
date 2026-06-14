@@ -45,6 +45,7 @@ echo.
 if !LOCAL_VER! GEQ !SOURCE_VER! (
     echo Local App version bang hoac moi hon source. Bo qua update.
     call :Cleanup
+    call :PauseBeforeExit
     exit /b 0
 )
 
@@ -54,6 +55,7 @@ echo.
 call :FindUsbWithRetry
 if errorlevel 1 (
     call :Cleanup
+    call :PauseBeforeExit
     exit /b 1
 )
 
@@ -89,13 +91,14 @@ call :DeleteOldAppZips "!USB_DIR!" "!SOURCE_FILE!"
 echo.
 echo Update App thanh cong: !SOURCE_FILE!
 call :Cleanup
+call :PauseBeforeExit
 exit /b 0
 
 :update_failed
 echo.
 echo %FAIL_MSG%
 call :Cleanup
-pause
+call :PauseBeforeExit
 exit /b 1
 
 rem ============================================================
@@ -231,6 +234,11 @@ for /f "delims=" %%F in ('dir /b /a-d "%TARGET_DIR%\App*.zip" 2^>nul') do (
         if !DEL_VER! GTR 0 del /f /q "%TARGET_DIR%\%%~nxF" >nul 2>nul
     )
 )
+exit /b 0
+
+:PauseBeforeExit
+echo.
+set /p "_=Bam Enter de thoat script update App..."
 exit /b 0
 
 :Cleanup
