@@ -22,7 +22,7 @@ cd /d "%~dp0" && ( if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs" ) &&
 echo.
 echo ======================================================
 echo   HE THONG DANG BAO TRI
-echo   Vui long lien he ky thuat vien neu can ho tro.
+echo   Vui long lien he IT neu can ho tro.
 echo ======================================================
 echo.
 
