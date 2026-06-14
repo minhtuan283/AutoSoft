@@ -4,20 +4,15 @@ setlocal EnableExtensions EnableDelayedExpansion
 rem ============================================================
 rem  updateapp.bat
 rem  Muc dich: Kiem tra va update App_xxx.zip cho local + USB.
-rem  SOURCE_URL co the la:
-rem    - link folder/trang share co hien ten App_xxx.zip
-rem    - hoac link truc tiep toi App_xxx.zip / App.zip
+rem  SOURCE_DOWNLOAD_URL phai la link tai truc tiep toi App_xxx.zip / App.zip
 rem  Quy uoc version:
 rem    - App.zip = version 1
 rem    - App_1.zip = version 1
 rem    - App_2.zip, App_3.zip... = version tuong ung
 rem ============================================================
 
-set "SOURCE_URL=https://nas264.tangtuanlab.io.vn/sharing/BWXoaBsbU"
 set "SOURCE_FILE_NAME=App_2.zip"
-rem Neu SOURCE_URL khong phai link tai truc tiep file zip, sua SOURCE_DOWNLOAD_URL thanh link tai truc tiep.
-rem De trong thi script se tu dung SOURCE_URL de tai.
-set "SOURCE_DOWNLOAD_URL="
+set "SOURCE_DOWNLOAD_URL=https://nas264.tangtuanlab.io.vn/fsdownload/BWXoaBsbU/App_2.zip"
 set "SOFT_DIR=C:\Windows\Soft"
 set "APP_PREFIX=App"
 set "TEMP_DIR=%TEMP%\updateapp_%RANDOM%%RANDOM%"
@@ -108,27 +103,14 @@ rem ============================================================
 :GetSourceInfo
 powershell -NoProfile -ExecutionPolicy Bypass -Command ^
   "$ErrorActionPreference='Stop';" ^
-  "$u='%SOURCE_URL%';" ^
-  "$manualName='%SOURCE_FILE_NAME%';" ^
-  "$manualUrl='%SOURCE_DOWNLOAD_URL%';" ^
+  "$sourceName='%SOURCE_FILE_NAME%';" ^
+  "$downloadUrl='%SOURCE_DOWNLOAD_URL%';" ^
   "function Get-Ver([string]$n){ if($n -match '(?i)^App(?:_(\d+))?\.zip$'){ if($Matches[1]){[int]$Matches[1]}else{1} }else{0} };" ^
-  "if(-not [string]::IsNullOrWhiteSpace($manualName)){" ^
-  "  $ver=Get-Ver $manualName;" ^
-  "  if($ver -le 0){ throw 'SOURCE_FILE_NAME khong dung format App.zip hoac App_xxx.zip' };" ^
-  "  if([string]::IsNullOrWhiteSpace($manualUrl)){ $manualUrl=$u };" ^
-  "  Set-Content -LiteralPath '%TEMP_INFO%' -Encoding ASCII -Value @($ver,$manualName,$manualUrl);" ^
-  "  exit 0;" ^
-  "}" ^
-  "$items=@();" ^
-  "if($u -match '(?i)/?App(?:_\d+)?\.zip(?:\?.*)?$'){ $name=[IO.Path]::GetFileName(([Uri]$u).AbsolutePath); $items += [pscustomobject]@{Name=$name; Url=$u; Ver=(Get-Ver $name)} }" ^
-  "else {" ^
-  "  $r=Invoke-WebRequest -Uri $u -UseBasicParsing -TimeoutSec 30;" ^
-  "  foreach($l in $r.Links){ $href=$l.href; $txt=($l.innerText + ' ' + $href); if($txt -match '(?i)(App(?:_\d+)?\.zip)'){ $name=$Matches[1]; try{$abs=[Uri]::new([Uri]$u,$href).AbsoluteUri}catch{$abs=$href}; $items += [pscustomobject]@{Name=$name; Url=$abs; Ver=(Get-Ver $name)} } }" ^
-  "  if(-not $items){ foreach($m in [regex]::Matches($r.Content,'(?i)App(?:_\d+)?\.zip')){ $name=$m.Value; $items += [pscustomobject]@{Name=$name; Url=([Uri]::new([Uri]$u,$name).AbsoluteUri); Ver=(Get-Ver $name)} } }" ^
-  "}" ^
-  "$best=$items | Where-Object {$_.Ver -gt 0} | Sort-Object Ver -Descending | Select-Object -First 1;" ^
-  "if(-not $best){ throw 'Khong tim thay App_xxx.zip tren source' };" ^
-  "Set-Content -LiteralPath '%TEMP_INFO%' -Encoding ASCII -Value @($best.Ver,$best.Name,$best.Url);"
+  "if([string]::IsNullOrWhiteSpace($sourceName)){ throw 'SOURCE_FILE_NAME dang trong' };" ^
+  "if([string]::IsNullOrWhiteSpace($downloadUrl)){ throw 'SOURCE_DOWNLOAD_URL dang trong' };" ^
+  "$ver=Get-Ver $sourceName;" ^
+  "if($ver -le 0){ throw 'SOURCE_FILE_NAME khong dung format App.zip hoac App_xxx.zip' };" ^
+  "Set-Content -LiteralPath '%TEMP_INFO%' -Encoding ASCII -Value @($ver,$sourceName,$downloadUrl);"
 if errorlevel 1 exit /b 1
 
 set /a LINE_NO=0
@@ -146,7 +128,12 @@ exit /b 0
 :DownloadSource
 echo Dang tai: !SOURCE_ZIP_URL!
 powershell -NoProfile -ExecutionPolicy Bypass -Command ^
-  "$ErrorActionPreference='Stop'; Invoke-WebRequest -Uri '!SOURCE_ZIP_URL!' -OutFile '%TEMP_ZIP%' -UseBasicParsing -TimeoutSec 300; $f=Get-Item -LiteralPath '%TEMP_ZIP%'; if($f.Length -le 0){ throw 'Downloaded file is empty' }"
+  "$ErrorActionPreference='Stop';" ^
+  "Invoke-WebRequest -Uri '!SOURCE_ZIP_URL!' -OutFile '%TEMP_ZIP%' -UseBasicParsing -TimeoutSec 300;" ^
+  "$f=Get-Item -LiteralPath '%TEMP_ZIP%';" ^
+  "if($f.Length -le 0){ throw 'Downloaded file is empty' };" ^
+  "$fs=[IO.File]::OpenRead('%TEMP_ZIP%'); try { $b1=$fs.ReadByte(); $b2=$fs.ReadByte(); } finally { $fs.Close() };" ^
+  "if($b1 -ne 0x50 -or $b2 -ne 0x4B){ throw 'Downloaded file is not a ZIP file. Link co the dang tra ve HTML/trang share thay vi App zip.' };"
 if errorlevel 1 exit /b 1
 if not exist "%TEMP_ZIP%" exit /b 1
 exit /b 0
@@ -230,8 +217,7 @@ set "KEEP_FILE=%~2"
 if not exist "%TARGET_DIR%" exit /b 0
 for /f "delims=" %%F in ('dir /b /a-d "%TARGET_DIR%\App*.zip" 2^>nul') do (
     if /I not "%%~nxF"=="%KEEP_FILE%" (
-        call :ParseAppVersion "%%~nxF" DEL_VER
-        if !DEL_VER! GTR 0 del /f /q "%TARGET_DIR%\%%~nxF" >nul 2>nul
+        del /f /q "%TARGET_DIR%\%%~nxF" >nul 2>nul
     )
 )
 exit /b 0
