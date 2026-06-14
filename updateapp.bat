@@ -241,7 +241,7 @@ exit /b 0
 
 :PauseBeforeExit
 echo.
-set /p "_=Bam Enter de thoat script update App..."
+rem set /p "_=Bam Enter de thoat script update App..."
 exit /b 0
 
 :Cleanup
