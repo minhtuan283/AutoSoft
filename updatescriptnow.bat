@@ -27,11 +27,11 @@ echo ======================================================
 echo.
 
 set "MAINT_PASS="
-set /p "MAINT_PASS=Nhap pass bao tri de tiep tuc: "
+set /p "MAINT_PASS=Pass bao tri: "
 
 if not "%MAINT_PASS%"=="280396" (
     echo.
-    echo Sai pass. Dung script tai day.
+    echo Sai pass. KTV vui long doi ban chinh thuc.
     pause
     endlocal
     exit /b 1
