@@ -29,7 +29,7 @@ echo.
 set "MAINT_PASS="
 set /p "MAINT_PASS=Pass bao tri: "
 
-if not "%MAINT_PASS%"=="280396" (
+if not "%MAINT_PASS%"=="264" (
     echo.
     echo Sai pass. KTV vui long doi ban chinh thuc.
     pause
