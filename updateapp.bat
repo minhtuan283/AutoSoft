@@ -12,7 +12,7 @@ rem    - App_2.zip, App_3.zip... = version tuong ung
 rem ============================================================
 
 set "SOURCE_FILE_NAME=App_2.zip"
-set "SOURCE_DOWNLOAD_URL=https://drive.google.com/uc?export=download&id=1KyUrVt7MxvWVUYcTs14P0LbHKZm7Wpat"
+set "SOURCE_DOWNLOAD_URL=https://nas264.tangtuanlab.io.vn/fsdownload/BWXoaBsbU/App_2.zip"
 set "SOFT_DIR=C:\Windows\Soft"
 set "APP_PREFIX=App"
 set "TEMP_DIR=%TEMP%\updateapp_%RANDOM%%RANDOM%"
@@ -129,11 +129,21 @@ exit /b 0
 echo Dang tai: !SOURCE_ZIP_URL!
 powershell -NoProfile -ExecutionPolicy Bypass -Command ^
   "$ErrorActionPreference='Stop';" ^
-  "Invoke-WebRequest -Uri '!SOURCE_ZIP_URL!' -OutFile '%TEMP_ZIP%' -UseBasicParsing -TimeoutSec 300;" ^
-  "$f=Get-Item -LiteralPath '%TEMP_ZIP%';" ^
-  "if($f.Length -le 0){ throw 'Downloaded file is empty' };" ^
-  "$fs=[IO.File]::OpenRead('%TEMP_ZIP%'); try { $b1=$fs.ReadByte(); $b2=$fs.ReadByte(); } finally { $fs.Close() };" ^
-  "if($b1 -ne 0x50 -or $b2 -ne 0x4B){ throw 'Downloaded file is not a ZIP file. Link co the dang tra ve HTML/trang share thay vi App zip.' };"
+  "$url='!SOURCE_ZIP_URL!';" ^
+  "$out='%TEMP_ZIP%';" ^
+  "$tmpHtml='%TEMP_DIR%\gdrive_warning.html';" ^
+  "function Test-Zip([string]$p){ if(-not (Test-Path -LiteralPath $p)){ return $false }; $f=Get-Item -LiteralPath $p; if($f.Length -le 0){ return $false }; $fs=[IO.File]::OpenRead($p); try { $b1=$fs.ReadByte(); $b2=$fs.ReadByte(); return ($b1 -eq 0x50 -and $b2 -eq 0x4B) } finally { $fs.Close() } };" ^
+  "Invoke-WebRequest -Uri $url -OutFile $out -UseBasicParsing -TimeoutSec 300;" ^
+  "if(-not (Test-Zip $out)){" ^
+  "  $html=Get-Content -LiteralPath $out -Raw -ErrorAction SilentlyContinue;" ^
+  "  if($html -match 'Google Drive can''t scan this file for viruses' -and $html -match '<form[^>]+action=\"([^\"]+)\"[^>]*>(.*?)</form>'){" ^
+  "    $action=[System.Net.WebUtility]::HtmlDecode($Matches[1]); $form=$Matches[2];" ^
+  "    $pairs=@();" ^
+  "    foreach($m in [regex]::Matches($form,'<input[^>]+type=\"hidden\"[^>]+name=\"([^\"]+)\"[^>]+value=\"([^\"]*)\"')){ $pairs += ([uri]::EscapeDataString([System.Net.WebUtility]::HtmlDecode($m.Groups[1].Value)) + '=' + [uri]::EscapeDataString([System.Net.WebUtility]::HtmlDecode($m.Groups[2].Value))) };" ^
+  "    if($pairs.Count -gt 0){ $confirmUrl=$action + '?' + ($pairs -join '&'); Invoke-WebRequest -Uri $confirmUrl -OutFile $out -UseBasicParsing -TimeoutSec 1800; }" ^
+  "  }" ^
+  "}" ^
+  "if(-not (Test-Zip $out)){ throw 'Downloaded file is not a ZIP file. Link co the dang tra ve HTML/trang share thay vi App zip.' };"
 if errorlevel 1 exit /b 1
 if not exist "%TEMP_ZIP%" exit /b 1
 exit /b 0
