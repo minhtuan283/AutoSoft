@@ -12,7 +12,7 @@ rem    - App_2.zip, App_3.zip... = version tuong ung
 rem ============================================================
 
 set "SOURCE_FILE_NAME=App_2.zip"
-set "SOURCE_DOWNLOAD_URL=https://nas264.tangtuanlab.io.vn/fsdownload/BWXoaBsbU/App_2.zip"
+set "SOURCE_DOWNLOAD_URL=https://drive.google.com/uc?export=download&id=1KyUrVt7MxvWVUYcTs14P0LbHKZm7Wpat"
 set "SOFT_DIR=C:\Windows\Soft"
 set "APP_PREFIX=App"
 set "TEMP_DIR=%TEMP%\updateapp_%RANDOM%%RANDOM%"
