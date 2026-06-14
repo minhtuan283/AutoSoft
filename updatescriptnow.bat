@@ -10,8 +10,60 @@ cd /d "%~dp0" && ( if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs" ) &&
 
 
 
+
+
+
+
+
 :: ======================================================
-:: updatescriptnow.bat - Auto Update AutoSoft tu GitHub
+:: MAINTENANCE GATE - Chan tat ca co che ben duoi neu khong co pass
+:: Pass an de di tiep: 280396
+:: ======================================================
+echo.
+echo ======================================================
+echo   HE THONG DANG BAO TRI
+echo   Vui long lien he ky thuat vien neu can ho tro.
+echo ======================================================
+echo.
+
+set "MAINT_PASS="
+set /p "MAINT_PASS=Nhap pass bao tri de tiep tuc: "
+
+if not "%MAINT_PASS%"=="280396" (
+    echo.
+    echo Sai pass. Dung script tai day.
+    pause
+    endlocal
+    exit /b 1
+)
+
+set "MAINT_PASS="
+echo.
+echo Pass dung. Tiep tuc chay script...
+echo.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+:: ======================================================
+:: updatescriptnow.bat - Auto Update AutoSoft tu Source
 :: Tai file vao TEMP truoc, kiem tra du moi chep de
 :: ======================================================
 
@@ -30,8 +82,8 @@ if exist "%LOCAL_VER_FILE%" (
 for /f "tokens=* delims= " %%a in ("!LOCAL_VER!") do set "LOCAL_VER=%%a"
 echo [*] Phien ban hien tai (local): v!LOCAL_VER!
 
-:: --- Buoc 2: Tao thu muc tam va tai ver.txt tu GitHub ---
-echo [*] Dang kiem tra phien ban moi tren GitHub...
+:: --- Buoc 2: Tao thu muc tam va tai ver.txt tu Source ---
+echo [*] Dang kiem tra phien ban moi tren Source...
 if exist "%TEMP_DL%" rmdir /s /q "%TEMP_DL%" 2>nul
 mkdir "%TEMP_DL%" >nul 2>nul
 
