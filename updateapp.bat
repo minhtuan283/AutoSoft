@@ -14,6 +14,10 @@ rem    - App_2.zip, App_3.zip... = version tuong ung
 rem ============================================================
 
 set "SOURCE_URL=https://nas264.tangtuanlab.io.vn/sharing/BWXoaBsbU"
+set "SOURCE_FILE_NAME=App_2.zip"
+rem Neu SOURCE_URL khong phai link tai truc tiep file zip, sua SOURCE_DOWNLOAD_URL thanh link tai truc tiep.
+rem De trong thi script se tu dung SOURCE_URL de tai.
+set "SOURCE_DOWNLOAD_URL="
 set "SOFT_DIR=C:\Windows\Soft"
 set "APP_PREFIX=App"
 set "TEMP_DIR=%TEMP%\updateapp_%RANDOM%%RANDOM%"
@@ -102,7 +106,16 @@ rem ============================================================
 powershell -NoProfile -ExecutionPolicy Bypass -Command ^
   "$ErrorActionPreference='Stop';" ^
   "$u='%SOURCE_URL%';" ^
+  "$manualName='%SOURCE_FILE_NAME%';" ^
+  "$manualUrl='%SOURCE_DOWNLOAD_URL%';" ^
   "function Get-Ver([string]$n){ if($n -match '(?i)^App(?:_(\d+))?\.zip$'){ if($Matches[1]){[int]$Matches[1]}else{1} }else{0} };" ^
+  "if(-not [string]::IsNullOrWhiteSpace($manualName)){" ^
+  "  $ver=Get-Ver $manualName;" ^
+  "  if($ver -le 0){ throw 'SOURCE_FILE_NAME khong dung format App.zip hoac App_xxx.zip' };" ^
+  "  if([string]::IsNullOrWhiteSpace($manualUrl)){ $manualUrl=$u };" ^
+  "  Set-Content -LiteralPath '%TEMP_INFO%' -Encoding ASCII -Value @($ver,$manualName,$manualUrl);" ^
+  "  exit 0;" ^
+  "}" ^
   "$items=@();" ^
   "if($u -match '(?i)/?App(?:_\d+)?\.zip(?:\?.*)?$'){ $name=[IO.Path]::GetFileName(([Uri]$u).AbsolutePath); $items += [pscustomobject]@{Name=$name; Url=$u; Ver=(Get-Ver $name)} }" ^
   "else {" ^
