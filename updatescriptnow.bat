@@ -37,7 +37,7 @@ mkdir "%TEMP_DL%" >nul 2>nul
 
 powershell -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; try { (New-Object Net.WebClient).DownloadFile('%GITHUB_RAW%/ver.txt', '%TEMP_DL%\ver.txt') } catch { exit 1 }"
 if %ERRORLEVEL% NEQ 0 (
-    echo [!] Khong the tai ver.txt tu GitHub. Bo qua update.
+    echo [!] Khong the tai ver.txt tu Source. Bo qua update.
     goto :CLEANUP
 )
 
@@ -54,11 +54,11 @@ if %ERRORLEVEL% NEQ 0 (
 
 :: --- Buoc App Update: Tai va chay updateapp.bat truoc khi update script ---
 echo.
-echo [*] Dang tai updateapp.bat tu GitHub...
+echo [*] Dang tai updateapp.bat tu Source...
 powershell -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; try { (New-Object Net.WebClient).DownloadFile('%GITHUB_RAW%/updateapp.bat', '%TEMP_DL%\updateapp.bat') } catch { exit 1 }"
 
 if %ERRORLEVEL% NEQ 0 (
-    echo [!] Khong the tai updateapp.bat tu GitHub. Dung script tong.
+    echo [!] Khong the tai updateapp.bat tu Source. Dung script tong.
     if exist "%TEMP_DL%" rmdir /s /q "%TEMP_DL%" 2>nul
     pause
     endlocal
@@ -105,7 +105,7 @@ echo.
 set "REMOTE_VER=0"
 set /p REMOTE_VER=<"%TEMP_DL%\ver.txt"
 for /f "tokens=* delims= " %%a in ("!REMOTE_VER!") do set "REMOTE_VER=%%a"
-echo [*] Phien ban moi nhat (GitHub): v!REMOTE_VER!
+echo [*] Phien ban moi nhat (Source): v!REMOTE_VER!
 
 :: --- Buoc 3: So sanh version ---
 if !REMOTE_VER! LEQ !LOCAL_VER! (
