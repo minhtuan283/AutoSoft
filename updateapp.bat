@@ -127,7 +127,7 @@ exit /b 0
 
 :DownloadSource
 
-echo Dang tai: !SOURCE_ZIP_URL!
+echo Dang tai file cap nhat...
 
 set "OC_SOURCE_ZIP_URL=!SOURCE_ZIP_URL!"
 
