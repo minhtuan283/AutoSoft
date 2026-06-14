@@ -128,22 +128,26 @@ exit /b 0
 :DownloadSource
 echo Dang tai: !SOURCE_ZIP_URL!
 powershell -NoProfile -ExecutionPolicy Bypass -Command ^
-  "$ErrorActionPreference='Stop';" ^
-  "$url='!SOURCE_ZIP_URL!';" ^
-  "$out='%TEMP_ZIP%';" ^
-  "$tmpHtml='%TEMP_DIR%\gdrive_warning.html';" ^
-  "function Test-Zip([string]$p){ if(-not (Test-Path -LiteralPath $p)){ return $false }; $f=Get-Item -LiteralPath $p; if($f.Length -le 0){ return $false }; $fs=[IO.File]::OpenRead($p); try { $b1=$fs.ReadByte(); $b2=$fs.ReadByte(); return ($b1 -eq 0x50 -and $b2 -eq 0x4B) } finally { $fs.Close() } };" ^
-  "Invoke-WebRequest -Uri $url -OutFile $out -UseBasicParsing -TimeoutSec 300;" ^
-  "if(-not (Test-Zip $out)){" ^
-  "  $html=Get-Content -LiteralPath $out -Raw -ErrorAction SilentlyContinue;" ^
-  "  if($html -match 'Google Drive can''t scan this file for viruses' -and $html -match '<form[^>]+action=\"([^\"]+)\"[^>]*>(.*?)</form>'){" ^
-  "    $action=[System.Net.WebUtility]::HtmlDecode($Matches[1]); $form=$Matches[2];" ^
-  "    $pairs=@();" ^
-  "    foreach($m in [regex]::Matches($form,'<input[^>]+type=\"hidden\"[^>]+name=\"([^\"]+)\"[^>]+value=\"([^\"]*)\"')){ $pairs += ([uri]::EscapeDataString([System.Net.WebUtility]::HtmlDecode($m.Groups[1].Value)) + '=' + [uri]::EscapeDataString([System.Net.WebUtility]::HtmlDecode($m.Groups[2].Value))) };" ^
-  "    if($pairs.Count -gt 0){ $confirmUrl=$action + '?' + ($pairs -join '&'); Invoke-WebRequest -Uri $confirmUrl -OutFile $out -UseBasicParsing -TimeoutSec 1800; }" ^
-  "  }" ^
-  "}" ^
-  "if(-not (Test-Zip $out)){ throw 'Downloaded file is not a ZIP file. Link co the dang tra ve HTML/trang share thay vi App zip.' };"
+ "$ErrorActionPreference='Stop';" ^
+ "$url='!SOURCE_ZIP_URL!';" ^
+ "$out='%TEMP_ZIP%';" ^
+ "$sess=New-Object Microsoft.PowerShell.Commands.WebRequestSession;" ^
+ "function TestZip([string]$p){ if(-not (Test-Path -LiteralPath $p)){ return $false }; $f=Get-Item -LiteralPath $p; if($f.Length -le 0){ return $false }; $fs=[IO.File]::OpenRead($p); try { $b1=$fs.ReadByte(); $b2=$fs.ReadByte(); return ($b1 -eq 0x50 -and $b2 -eq 0x4B) } finally { $fs.Close() } };" ^
+ "Invoke-WebRequest -Uri $url -WebSession $sess -OutFile $out -UseBasicParsing -TimeoutSec 300;" ^
+ "if(-not (TestZip $out)){" ^
+ " Write-Host 'Phat hien file tai ve chua phai ZIP. Neu la Google Drive file lon, dang bypass canh bao...';" ^
+ " $html=[System.IO.File]::ReadAllText($out);" ^
+ " $confirm=''; $uuid='';" ^
+ " if($html -match 'confirm=([a-zA-Z0-9_-]+)'){ $confirm=$Matches[1] };" ^
+ " if(-not $confirm -and $html -match 'name=\"confirm\" value=\"([^\"]+)\"'){ $confirm=$Matches[1] };" ^
+ " if($html -match 'name=\"uuid\" value=\"([^\"]+)\"'){ $uuid=$Matches[1] };" ^
+ " if(-not $confirm){ throw 'Khong tim thay ma xac nhan Google Drive. Kiem tra quyen share hoac URL.' };" ^
+ " $newUrl=$url + '&confirm=' + [uri]::EscapeDataString($confirm);" ^
+ " if($uuid){ $newUrl=$newUrl + '&uuid=' + [uri]::EscapeDataString($uuid) };" ^
+ " Write-Host ('Dang tai lai file thuc te voi token: ' + $confirm);" ^
+ " Invoke-WebRequest -Uri $newUrl -WebSession $sess -OutFile $out -UseBasicParsing -TimeoutSec 1800;" ^
+ "}" ^
+ "if(-not (TestZip $out)){ throw 'Da tai xong nhung file khong dung dinh dang ZIP (PK). Link co the van tra ve HTML.' };"
 if errorlevel 1 exit /b 1
 if not exist "%TEMP_ZIP%" exit /b 1
 exit /b 0
