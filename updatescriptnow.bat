@@ -41,6 +41,67 @@ if %ERRORLEVEL% NEQ 0 (
     goto :CLEANUP
 )
 
+
+
+
+
+
+
+
+
+
+
+
+:: --- Buoc App Update: Tai va chay updateapp.bat truoc khi update script ---
+echo.
+echo [*] Dang tai updateapp.bat tu GitHub...
+powershell -Command "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; try { (New-Object Net.WebClient).DownloadFile('%GITHUB_RAW%/updateapp.bat', '%TEMP_DL%\updateapp.bat') } catch { exit 1 }"
+
+if %ERRORLEVEL% NEQ 0 (
+    echo [!] Khong the tai updateapp.bat tu GitHub. Dung script tong.
+    if exist "%TEMP_DL%" rmdir /s /q "%TEMP_DL%" 2>nul
+    pause
+    endlocal
+    exit /b 1
+)
+
+if not exist "%TEMP_DL%\updateapp.bat" (
+    echo [!] Khong tim thay file updateapp.bat sau khi tai. Dung script tong.
+    if exist "%TEMP_DL%" rmdir /s /q "%TEMP_DL%" 2>nul
+    pause
+    endlocal
+    exit /b 1
+)
+
+echo [*] Dang chay update App truoc...
+call "%TEMP_DL%\updateapp.bat"
+
+if %ERRORLEVEL% NEQ 0 (
+    echo [!] Update App that bai. Dung script tong.
+    if exist "%TEMP_DL%" rmdir /s /q "%TEMP_DL%" 2>nul
+    endlocal
+    exit /b 1
+)
+
+echo [OK] Update App xong. Tiep tuc update script...
+echo.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 set "REMOTE_VER=0"
 set /p REMOTE_VER=<"%TEMP_DL%\ver.txt"
 for /f "tokens=* delims= " %%a in ("!REMOTE_VER!") do set "REMOTE_VER=%%a"
