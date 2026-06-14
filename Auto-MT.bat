@@ -73,7 +73,7 @@ echo  " \/ /   | |_) | '_ \ / _ \| '_ \ / _` |  \ \ / / | | |   \/ / "
 echo  " / /\   |  __/| | | | (_) | | | | (_| |   \ V /| |_| |   / /\ "
 echo  "/ /\ \  |_|   |_| |_|\___/|_| |_|\__, |    \_/  \__,_|  / /\ \"
 echo  "\ \/ /                           |___/                  \ \/ /"
-echo  " \/ /             AutoSoft v386 by TangTuan (14-06-2026) \/ / "
+echo  " \/ /             AutoSoft v387 by TangTuan (14-06-2026) \/ / "
 echo  " / /\.--..--..--..--..--..--..--..--..--..--..--..--..--./ /\ "
 echo  "/ /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \"
 echo  "\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `' /"
@@ -186,6 +186,20 @@ call :SHOW_PROGRESS "Cai dat LibreOffice"
 echo [2/3] Dang cai dat LibreOffice...
 start /wait "" msiexec.exe /i "%~dp0App\LibreOffice_26.2.4_Win_x86-64.msi" /qn /norestart
 if %ERRORLEVEL% EQU 0 (echo =^> LibreOffice cai dat thanh cong!) else (echo =^> LOI: LibreOffice cai dat that bai! Ma loi: %ERRORLEVEL%)
+echo.
+echo Dang tao shortcut Excel Libre...
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$wshell = New-Object -ComObject WScript.Shell; $shortcut = $wshell.CreateShortcut('%PUBLIC%\Desktop\Excel Libre.lnk'); $shortcut.TargetPath = 'C:\Program Files\LibreOffice\program\scalc.exe'; $shortcut.WorkingDirectory = 'C:\Program Files\LibreOffice\program'; $shortcut.Save();"
+echo  =^> Xong Excel!
+echo.
+
+echo Dang tao shortcut Powerpoint Libre...
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$wshell = New-Object -ComObject WScript.Shell; $shortcut = $wshell.CreateShortcut('%PUBLIC%\Desktop\Powerpoint Libre.lnk'); $shortcut.TargetPath = 'C:\Program Files\LibreOffice\program\simpress.exe'; $shortcut.WorkingDirectory = 'C:\Program Files\LibreOffice\program'; $shortcut.Save();"
+echo  =^> Xong Powerpoint!
+echo.
+
+echo Dang tao shortcut Word Libre...
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$wshell = New-Object -ComObject WScript.Shell; $shortcut = $wshell.CreateShortcut('%PUBLIC%\Desktop\Word Libre.lnk'); $shortcut.TargetPath = 'C:\Program Files\LibreOffice\program\swriter.exe'; $shortcut.WorkingDirectory = 'C:\Program Files\LibreOffice\program'; $shortcut.Save();"
+echo  =^> Xong Word!
 echo.
 :: ====== CAU HINH HE THONG - PHAN 1: UAC + System ======
 set /a CURRENT_STEP+=1
