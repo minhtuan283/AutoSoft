@@ -73,7 +73,7 @@ echo  " \/ /   | |_) | '_ \ / _ \| '_ \ / _` |  \ \ / / | | |   \/ / "
 echo  " / /\   |  __/| | | | (_) | | | | (_| |   \ V /| |_| |   / /\ "
 echo  "/ /\ \  |_|   |_| |_|\___/|_| |_|\__, |    \_/  \__,_|  / /\ \"
 echo  "\ \/ /                           |___/                  \ \/ /"
-echo  " \/ /             AutoSoft v389 by TangTuan (15-06-2026) \/ / "
+echo  " \/ /             AutoSoft v390 by TangTuan (15-06-2026) \/ / "
 echo  " / /\.--..--..--..--..--..--..--..--..--..--..--..--..--./ /\ "
 echo  "/ /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \"
 echo  "\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `' /"
@@ -88,7 +88,7 @@ echo      6. Add icon This Pc, Control Panel
 echo      7. Tat Bitlocker (tat ca cac o)
 echo      8. Tat UAC
 echo      9. Pause Windows Update (2080)
-echo      10. Cai LibreOffice, 7-Zip, PDF-XChange Editor
+echo      10. Cai OnlyOffice, 7-Zip, PDF-XChange Editor
 echo      11. Edit Taskbar: Windows button sang trai, xoa icon rac
 echo      12. Open SMB 24h2 
 echo      13. Open/Close Chrome/Zalo/EDGE
@@ -180,32 +180,13 @@ regedit.exe /S %~dp0Script\International.reg
 w32tm /resync
 
 
-:: ====== CAI DAT 1: LibreOffice (CHO XONG) ======
+:: ====== CAI DAT 1: OnlyOffice  ======
 set /a CURRENT_STEP+=1
-call :SHOW_PROGRESS "Cai dat LibreOffice"
-echo [2/3] Dang cai dat LibreOffice...
-start /wait "" msiexec.exe /i "%~dp0App\LibreOffice_26.2.4_Win_x86-64.msi" /qn /norestart
-if %ERRORLEVEL% EQU 0 (echo =^> LibreOffice cai dat thanh cong!) else (echo =^> LOI: LibreOffice cai dat that bai! Ma loi: %ERRORLEVEL%)
-echo.
-echo Dang tao shortcut Excel Libre...
-powershell -NoProfile -ExecutionPolicy Bypass -Command "$wshell = New-Object -ComObject WScript.Shell; $shortcut = $wshell.CreateShortcut('%PUBLIC%\Desktop\Excel Libre.lnk'); $shortcut.TargetPath = 'C:\Program Files\LibreOffice\program\scalc.exe'; $shortcut.WorkingDirectory = 'C:\Program Files\LibreOffice\program'; $shortcut.Save();"
-echo  =^> Xong Excel!
-echo.
+call :SHOW_PROGRESS "Cai dat Onlyoffice"
+echo [2/3] Dang cai dat OnlyOffice...
+start /wait "" msiexec.exe /i "%~dp0App\DesktopEditors_x64.msi" /quiet /norestart
+if %ERRORLEVEL% EQU 0 (echo =^> OnlyOffice cai dat thanh cong!) else (echo =^> LOI: OnlyOffice cai dat that bai! Ma loi: %ERRORLEVEL%)
 
-echo Dang tao shortcut Powerpoint Libre...
-powershell -NoProfile -ExecutionPolicy Bypass -Command "$wshell = New-Object -ComObject WScript.Shell; $shortcut = $wshell.CreateShortcut('%PUBLIC%\Desktop\Powerpoint Libre.lnk'); $shortcut.TargetPath = 'C:\Program Files\LibreOffice\program\simpress.exe'; $shortcut.WorkingDirectory = 'C:\Program Files\LibreOffice\program'; $shortcut.Save();"
-echo  =^> Xong Powerpoint!
-echo.
-
-echo Dang tao shortcut Word Libre...
-powershell -NoProfile -ExecutionPolicy Bypass -Command "$wshell = New-Object -ComObject WScript.Shell; $shortcut = $wshell.CreateShortcut('%PUBLIC%\Desktop\Word Libre.lnk'); $shortcut.TargetPath = 'C:\Program Files\LibreOffice\program\swriter.exe'; $shortcut.WorkingDirectory = 'C:\Program Files\LibreOffice\program'; $shortcut.Save();"
-echo  =^> Xong Word!
-echo.
-
-
-mkdir "%APPDATA%\LibreOffice\4\user" 2>nul
-
-copy /Y "%~dp0Script\registrymodifications.xcu" "%APPDATA%\LibreOffice\4\user\registrymodifications.xcu"
 
 
 
@@ -350,7 +331,7 @@ rem startup Zalo to disable
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run" /v Zalo /t REG_BINARY /d 03000000 /f
 ping 127.0.0.1 -n 1 >nul
 
-rem WPS da duoc thay bang LibreOffice, bo qua findWps.bat.
+rem WPS da duoc thay bang OnlyOffice, bo qua findWps.bat.
 ping 127.0.0.1 -n 1 >nul
 
 set /a CURRENT_STEP+=1
@@ -443,7 +424,7 @@ echo  " \/ /   | |_) | '_ \ / _ \| '_ \ / _` |  \ \ / / | | |   \/ / "
 echo  " / /\   |  __/| | | | (_) | | | | (_| |   \ V /| |_| |   / /\ "
 echo  "/ /\ \  |_|   |_| |_|\___/|_| |_|\__, |    \_/  \__,_|  / /\ \"
 echo  "\ \/ /                           |___/                  \ \/ /"
-echo  " \/ /             AutoSoft v389 by TangTuan (15-06-2026) \/ / "
+echo  " \/ /             AutoSoft v390 by TangTuan (15-06-2026) \/ / "
 echo  " / /\.--..--..--..--..--..--..--..--..--..--..--..--..--./ /\ "
 echo  "/ /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \"
 echo  "\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `' /"
