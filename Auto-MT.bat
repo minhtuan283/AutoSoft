@@ -124,10 +124,10 @@ if not defined APP_ZIP (
     endlocal
     exit /b 1
 )
-echo [*] Dang giai nen !APP_ZIP! vao folder App...
+echo [*] Dang giai nen...
 "%~dp0\Tools\7z.exe" x "!APP_ZIP!" -o"%~dp0\App" -y -aoa >nul
 if errorlevel 1 (
-    echo [X] Giai nen !APP_ZIP! that bai.
+    echo [X] Giai nen that bai.
     pause
     endlocal
     exit /b 1
