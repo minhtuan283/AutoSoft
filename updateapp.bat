@@ -33,8 +33,8 @@ call :GetSourceInfo
 if errorlevel 1 goto update_failed
 
 echo.
-echo Local version tai "%SOFT_DIR%": !LOCAL_VER!
-echo Source version: !SOURCE_VER! ^(!SOURCE_FILE!^)
+echo App Local version: !LOCAL_VER!
+echo App Source version: !SOURCE_VER! ^(!SOURCE_FILE!^)
 echo.
 
 if !LOCAL_VER! GEQ !SOURCE_VER! (
