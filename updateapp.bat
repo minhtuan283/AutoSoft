@@ -11,8 +11,8 @@ rem    - App_1.zip = version 1
 rem    - App_2.zip, App_3.zip... = version tuong ung
 rem ============================================================
 
-set "SOURCE_FILE_NAME=App_2.zip"
-set "SOURCE_DOWNLOAD_URL=https://softupdate.tangtuanlab.io.vn/App_2.zip?v=999"
+set "SOURCE_FILE_NAME=App_3.zip"
+set "SOURCE_DOWNLOAD_URL=https://softupdate.tangtuanlab.io.vn/App_3.zip?v=999"
 set "SOFT_DIR=C:\Windows\Soft"
 set "APP_PREFIX=App"
 set "TEMP_DIR=%TEMP%\updateapp_%RANDOM%%RANDOM%"
