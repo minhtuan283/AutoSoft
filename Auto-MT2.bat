@@ -148,7 +148,14 @@ echo [2/3] Dang cai dat OnlyOffice...
 start /wait "" msiexec.exe /i "%~dp0App\DesktopEditors_x64.msi" /quiet /norestart
 if %ERRORLEVEL% EQU 0 (echo =^> OnlyOffice cai dat thanh cong!) else (echo =^> LOI: OnlyOffice cai dat that bai! Ma loi: %ERRORLEVEL%)
 
+copy /y "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\ONLYOFFICE\New document.lnk" "%USERPROFILE%\Desktop\Word OnlyOffice.lnk" >nul 2>&1
+copy /y "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\ONLYOFFICE\New presentation.lnk" "%USERPROFILE%\Desktop\Powerpoint OnlyOffice.lnk" >nul 2>&1
+copy /y "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\ONLYOFFICE\New spreadsheet.lnk" "%USERPROFILE%\Desktop\Excel OnlyOffice.lnk" >nul 2>&1
 
+
+copy /y "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\ONLYOFFICE\Tài liu mi.lnk" "%USERPROFILE%\Desktop\Word OnlyOffice.lnk" >nul 2>&1
+copy /y "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\ONLYOFFICE\Bn trnh chiu mi.lnk" "%USERPROFILE%\Desktop\Powerpoint OnlyOffice.lnk" >nul 2>&1
+copy /y "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\ONLYOFFICE\Bng tính mi.lnk" "%USERPROFILE%\Desktop\Excel OnlyOffice.lnk" >nul 2>&1
 
 
 
