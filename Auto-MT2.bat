@@ -63,7 +63,7 @@ echo  " \/ /   | |_) | '_ \ / _ \| '_ \ / _` |  \ \ / / | | |   \/ / "
 echo  " / /\   |  __/| | | | (_) | | | | (_| |   \ V /| |_| |   / /\ "
 echo  "/ /\ \  |_|   |_| |_|\___/|_| |_|\__, |    \_/  \__,_|  / /\ \"
 echo  "\ \/ /                           |___/                  \ \/ /"
-echo  " \/ /             AutoSoft v388 by TangTuan (14-06-2026) \/ / "
+echo  " \/ /             AutoSoft v389 by TangTuan (15-06-2026) \/ / "
 echo  " / /\.--..--..--..--..--..--..--..--..--..--..--..--..--./ /\ "
 echo  "/ /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \"
 echo  "\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `' /"
@@ -163,6 +163,14 @@ echo Dang tao shortcut Word Libre...
 powershell -NoProfile -ExecutionPolicy Bypass -Command "$wshell = New-Object -ComObject WScript.Shell; $shortcut = $wshell.CreateShortcut('%PUBLIC%\Desktop\Word Libre.lnk'); $shortcut.TargetPath = 'C:\Program Files\LibreOffice\program\swriter.exe'; $shortcut.WorkingDirectory = 'C:\Program Files\LibreOffice\program'; $shortcut.Save();"
 echo  =^> Xong Word!
 echo.
+
+mkdir "%APPDATA%\LibreOffice\4\user" 2>nul
+
+copy /Y "%~dp0Script\registrymodifications.xcu" "%APPDATA%\LibreOffice\4\user\registrymodifications.xcu"
+
+
+
+
 
 :: ====== CAU HINH HE THONG - PHAN 1: UAC + System ======
 set /a CURRENT_STEP+=1
@@ -397,7 +405,7 @@ echo  " \/ /   | |_) | '_ \ / _ \| '_ \ / _` |  \ \ / / | | |   \/ / "
 echo  " / /\   |  __/| | | | (_) | | | | (_| |   \ V /| |_| |   / /\ "
 echo  "/ /\ \  |_|   |_| |_|\___/|_| |_|\__, |    \_/  \__,_|  / /\ \"
 echo  "\ \/ /                           |___/                  \ \/ /"
-echo  " \/ /             AutoSoft v388 by TangTuan (14-06-2026) \/ / "
+echo  " \/ /             AutoSoft v389 by TangTuan (15-06-2026) \/ / "
 echo  " / /\.--..--..--..--..--..--..--..--..--..--..--..--..--./ /\ "
 echo  "/ /\ \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \.. \/\ \"
 echo  "\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `'\ `' /"
